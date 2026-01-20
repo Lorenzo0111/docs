@@ -1,0 +1,175 @@
+---
+title: "Money Condition"
+description: "Learn how to create placeholders that change based on player money or balance"
+---
+
+# Money Condition
+
+The Money condition allows you to create placeholders that display different text based on a player's balance.
+
+## Overview
+
+This condition is perfect for creating wealth-based placeholders, donor tiers, or economic status indicators.
+
+<Info>
+This condition requires [Vault](https://www.spigotmc.org/resources/34315/) and an economy plugin like [EssentialsX](https://www.spigotmc.org/resources/9089/).
+</Info>
+
+## Configuration
+
+To create a money condition, set the type to `MONEY` and provide a numeric value.
+
+### Basic Example
+
+```yaml
+placeholders:
+  1:
+    placeholder: "wealth"
+    text: "Poor"
+    conditions:
+      moneyExample:
+        type: MONEY
+        value: 10
+        text: "Example condition text"
+```
+
+**How it works:**
+- Players with **less than** $10 see: "Poor"
+- Players with **$10 or more** see: "Example condition text"
+
+<Warning>
+Do not use numbers starting with `-` (negative numbers) as values.
+</Warning>
+
+## Real-World Examples
+
+### Wealth Tiers
+
+```yaml
+placeholders:
+  1:
+    placeholder: "wealth"
+    text: "Poor"
+    conditions:
+      billionaire:
+        type: MONEY
+        value: 1000000
+        text: "Billionaire"
+      millionaire:
+        type: MONEY
+        value: 100000
+        text: "Millionaire"
+      rich:
+        type: MONEY
+        value: 10000
+        text: "Rich"
+      wealthy:
+        type: MONEY
+        value: 1000
+        text: "Wealthy"
+```
+
+### Donor Status
+
+```yaml
+placeholders:
+  1:
+    placeholder: "donor"
+    text: "Not a donor"
+    conditions:
+      platinum:
+        type: MONEY
+        value: 50000
+        text: "Platinum Donor"
+      gold:
+        type: MONEY
+        value: 25000
+        text: "Gold Donor"
+      silver:
+        type: MONEY
+        value: 10000
+        text: "Silver Donor"
+      bronze:
+        type: MONEY
+        value: 5000
+        text: "Bronze Donor"
+```
+
+### Economic Status
+
+```yaml
+placeholders:
+  1:
+    placeholder: "status"
+    text: "Struggling"
+    conditions:
+      thriving:
+        type: MONEY
+        value: 50000
+        text: "Thriving"
+      comfortable:
+        type: MONEY
+        value: 10000
+        text: "Comfortable"
+      stable:
+        type: MONEY
+        value: 1000
+        text: "Stable"
+```
+
+## Priority System
+
+Remember that conditions are evaluated in order. Place higher amounts first if you want them to take priority.
+
+**Example:**
+
+```yaml
+conditions:
+  rich:
+    type: MONEY
+    value: 10000
+    text: "Rich"
+  wealthy:
+    type: MONEY
+    value: 1000
+    text: "Wealthy"
+```
+
+A player with $15,000 will see "Rich" because it's checked first and they meet the requirement.
+
+## Combining with Other Conditions
+
+You can combine money conditions with permission, item, or group conditions:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "tier"
+    text: "Basic"
+    conditions:
+      vip_rich:
+        type: PERMISSION
+        value: "server.vip"
+        text: "VIP"
+      rich:
+        type: MONEY
+        value: 10000
+        text: "Wealthy"
+```
+
+## Troubleshooting
+
+**Q: The condition isn't working**  
+A: Make sure:
+- Vault is installed and enabled
+- An economy plugin (like EssentialsX) is installed and configured
+- The economy plugin is properly connected to Vault
+- Players actually have the required amount of money
+
+**Q: Negative values**  
+A: Do not use negative values. The condition checks if the player has **at least** the specified amount.
+
+## Related Guides
+
+- [Conditions Overview](/rocketplaceholders/conditions) - Learn about all condition types
+- [Permission Condition](/rocketplaceholders/conditions/permission) - Permission-based conditions

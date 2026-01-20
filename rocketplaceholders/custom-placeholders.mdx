@@ -1,0 +1,202 @@
+---
+title: "Custom Placeholders"
+description: "Learn how to create custom placeholders with RocketPlaceholders, including basic placeholders and permission-based placeholders"
+---
+
+# Custom Placeholders
+
+RocketPlaceholders allows you to create custom placeholders that can be used with PlaceholderAPI and MVdWPlaceholderAPI. This guide will teach you how to create your own placeholders.
+
+## Overview
+
+Custom placeholders are stored in the `placeholders` folder. Each placeholder is defined in its own YAML file with a unique identifier.
+
+## Creating a Basic Placeholder
+
+To create a custom placeholder, create a new file in the `placeholders` folder with the following structure:
+
+```yaml
+placeholders:
+  1:  # Unique identifier (CHANGE IT, DO NOT USE 0)
+    placeholder: "test"  # The placeholder will be %rp_test% (PlaceholderAPI) or {rp_test} (MVdWPlaceholderAPI)
+    text: "This is an example"
+```
+
+### Placeholder Format
+
+- **PlaceholderAPI**: `%rp_<name>%` (e.g., `%rp_test%`)
+- **MVdWPlaceholderAPI**: `{rp_<name>}` (e.g., `{rp_test}`)
+
+Where `<name>` is the value you set in the `placeholder` field.
+
+## Public Placeholders
+
+A public placeholder is visible to everyone with the same text:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "welcome"
+    text: "Welcome to our server!"
+```
+
+**Result:** All players will see "Welcome to our server!" when using `%rp_welcome%`.
+
+## Permission-Based Placeholders
+
+You can create placeholders that show different text based on permissions:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "test"
+    text: "This is a test"  # Shown to players without permission
+    permission: "example.1"  # Permission node
+    text_with_permission: "this is a secret test!"  # Shown to players with permission
+```
+
+**How it works:**
+- Players **without** `example.1` permission see: "This is a test"
+- Players **with** `example.1` permission see: "this is a secret test!"
+
+## Examples
+
+### Example 1: Simple Welcome Message
+
+```yaml
+placeholders:
+  1:
+    placeholder: "welcome"
+    text: "Welcome to our amazing server!"
+```
+
+### Example 2: Permission-Based Secret Message
+
+```yaml
+placeholders:
+  1:
+    placeholder: "secret"
+    text: "You don't have access"
+    permission: "server.vip"
+    text_with_permission: "Welcome, VIP member!"
+```
+
+### Example 3: Multiple Placeholders
+
+You can define multiple placeholders in the same file:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "welcome"
+    text: "Welcome!"
+  
+  2:
+    placeholder: "server"
+    text: "Amazing Server"
+  
+  3:
+    placeholder: "status"
+    text: "Online"
+    permission: "admin.status"
+    text_with_permission: "Server Status: Online"
+```
+
+## Using JavaScript Expressions
+
+You can use JavaScript expressions for placeholder text (requires JShader):
+
+```yaml
+placeholders:
+  1:
+    placeholder: "test"
+    text: "'Hello World' === 'Hello World' ? 'YES' : 'NO'"  # This will return YES
+    parsejs: true
+```
+
+<Warning>
+The JavaScript feature requires RocketPlaceholders 1.9.1+ and JShader plugin. See the [JavaScript Condition](/rocketplaceholders/conditions/javascript) guide for more details.
+</Warning>
+
+## Placeholder Identifiers
+
+<Warning>
+**Important:** Do not use `0` as an identifier. Always use numbers starting from 1 or higher.
+</Warning>
+
+**Good:**
+```yaml
+placeholders:
+  1:
+    placeholder: "example"
+    text: "Example"
+```
+
+**Bad:**
+```yaml
+placeholders:
+  0:  # DON'T USE 0!
+    placeholder: "example"
+    text: "Example"
+```
+
+## Best Practices
+
+1. **Use descriptive names** - Choose placeholder names that clearly indicate their purpose (e.g., `welcome`, `server_name`, `player_count`)
+
+2. **Organize by purpose** - Group related placeholders together or create separate files for different categories
+
+3. **Document your placeholders** - Add comments in your YAML files to explain what each placeholder does
+
+4. **Test thoroughly** - Always test your placeholders in-game to ensure they work as expected
+
+5. **Use conditions for complex logic** - For more advanced logic, use [conditions](/rocketplaceholders/conditions) instead of just permissions
+
+## Advanced: Using Conditions
+
+For more complex placeholder logic, you can use conditions:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Default"
+    conditions:
+      vip:
+        type: PERMISSION
+        value: "server.vip"
+        text: "VIP"
+      admin:
+        type: PERMISSION
+        value: "server.admin"
+        text: "Admin"
+```
+
+See the [Conditions](/rocketplaceholders/conditions) guide for detailed information.
+
+## Troubleshooting
+
+**Q: My placeholder isn't showing up**  
+A: Make sure:
+- The placeholder identifier is not `0`
+- The file is in the `placeholders` folder
+- You've restarted the server or reloaded the plugin
+- PlaceholderAPI is installed and working
+
+**Q: Permission-based placeholder shows the same text for everyone**  
+A: Check that:
+- The permission node is correct
+- Players actually have the permission
+- The `text_with_permission` field is set
+
+**Q: Placeholder shows as `%rp_name%` instead of the text**  
+A: This usually means PlaceholderAPI isn't detecting the placeholder. Make sure:
+- PlaceholderAPI is installed and enabled
+- RocketPlaceholders is properly installed
+- You're using the correct placeholder format
+
+## Related Guides
+
+- [Configuration](/rocketplaceholders/configuration) - Plugin configuration
+- [Conditions](/rocketplaceholders/conditions) - Advanced placeholder conditions
+- [Custom Permissions](/rocketplaceholders/custom-permissions) - Legacy permission system (deprecated)

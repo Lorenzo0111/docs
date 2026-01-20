@@ -1,0 +1,201 @@
+---
+title: "Item Condition"
+description: "Learn how to create placeholders that change based on items in a player's inventory"
+---
+
+# Item Condition
+
+The Item condition allows you to create placeholders that display different text based on whether a player has a specific item in their inventory.
+
+## Overview
+
+This condition is perfect for creating item-based rewards, quest completion indicators, or special item holder statuses.
+
+## Configuration
+
+To create an item condition, set the type to `ITEM` and configure the item properties.
+
+### Basic Example
+
+```yaml
+placeholders:
+  1:
+    placeholder: "status"
+    text: "No special item"
+    conditions:
+      itemExample:
+        type: ITEM
+        material: STONE
+        text: "Example condition text"
+```
+
+**How it works:**
+
+- Players **without** the item see: "No special item"
+- Players **with** the item see: "Example condition text"
+
+## Item Properties
+
+### Material (Required)
+
+The material of the item. You can view a list of all available materials in the [Bukkit Material enum](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html).
+
+**Example:**
+
+```yaml
+material: STONE
+material: DIAMOND
+material: GOLDEN_APPLE
+```
+
+### Name (Optional)
+
+The display name of the item. Supports color codes if `colors` is enabled.
+
+**Example:**
+
+```yaml
+name: "&cExample Item"
+name: "Special Sword"
+```
+
+### Lore (Optional)
+
+The lore of the item as a string list. Supports color codes if `colors` is enabled.
+
+**Example:**
+
+```yaml
+lore:
+  - "First line"
+  - "Second line"
+  - "&aColored line"
+```
+
+### Colors (Optional)
+
+If set to `true`, color codes like `&a` are translated and displayed in color.
+
+**Default:** `false`
+
+**Example:**
+
+```yaml
+colors: true
+```
+
+## Complete Example
+
+Here's a full example with all options:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "badge"
+    text: "No badge"
+    conditions:
+      itemExample:
+        type: ITEM
+        material: STONE
+        name: "&cExample"
+        lore:
+          - "&aExample line"
+          - "&7Second line"
+        colors: true
+        text: "Example condition text"
+```
+
+## Real-World Examples
+
+### Quest Item Holder
+
+```yaml
+placeholders:
+  1:
+    placeholder: "quest"
+    text: "No quest item"
+    conditions:
+      quest_complete:
+        type: ITEM
+        material: EMERALD
+        name: "&aQuest Completion Token"
+        lore:
+          - "&7You completed the quest!"
+        colors: true
+        text: "Quest Completed"
+```
+
+### Special Weapon Holder
+
+```yaml
+placeholders:
+  1:
+    placeholder: "weapon"
+    text: "No special weapon"
+    conditions:
+      legendary_sword:
+        type: ITEM
+        material: DIAMOND_SWORD
+        name: "&6&lLegendary Sword"
+        lore:
+          - "&7A powerful weapon"
+          - "&7Only for the worthy"
+        colors: true
+        text: "Legendary Warrior"
+```
+
+### VIP Token Holder
+
+```yaml
+placeholders:
+  1:
+    placeholder: "vip_status"
+    text: "Regular Player"
+    conditions:
+      vip_token:
+        type: ITEM
+        material: GOLD_INGOT
+        name: "&e&lVIP Token"
+        lore:
+          - "&7Hold this to show VIP status"
+        colors: true
+        text: "VIP Token Holder"
+```
+
+## Matching Behavior
+
+The item condition checks if the player has an item that matches:
+
+- The specified material
+- The specified name (if provided)
+- The specified lore (if provided)
+
+All provided properties must match for the condition to be true.
+
+## Tips and Best Practices
+
+1. **Be specific** - Use name and lore to make items unique and prevent false matches
+
+2. **Use colors** - Enable `colors: true` to make items more visually distinct
+
+3. **Test thoroughly** - Make sure the item matching works as expected with your specific items
+
+4. **Combine conditions** - You can combine item conditions with permission, money, or group conditions
+
+## Troubleshooting
+
+**Q: The condition isn't matching**  
+A: Make sure:
+
+- The material name is correct (case-sensitive)
+- If you specified a name, it matches exactly (including color codes)
+- If you specified lore, all lines match exactly
+- The player actually has the item in their inventory
+
+**Q: Color codes aren't working**  
+A: Make sure `colors: true` is set in your condition configuration.
+
+## Related Guides
+
+- [Conditions Overview](/rocketplaceholders/conditions) - Learn about all condition types
+- [Permission Condition](/rocketplaceholders/conditions/permission) - Permission-based conditions

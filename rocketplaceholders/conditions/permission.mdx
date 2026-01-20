@@ -1,0 +1,119 @@
+---
+title: "Permission Condition"
+description: "Learn how to create placeholders that change based on player permissions"
+---
+
+# Permission Condition
+
+The Permission condition allows you to create placeholders that display different text based on player permissions.
+
+## Overview
+
+This is one of the most commonly used conditions, perfect for creating rank-based, VIP, or role-specific placeholders.
+
+## Configuration
+
+To create a permission condition, set the type to `PERMISSION` and provide the permission node as the value.
+
+### Basic Example
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Default"
+    conditions:
+      permissionExample:
+        type: PERMISSION
+        value: "example.permission"
+        text: "Example condition text"
+```
+
+**How it works:**
+- Players **without** `example.permission` see: "Default"
+- Players **with** `example.permission` see: "Example condition text"
+
+## Real-World Examples
+
+### VIP Rank Placeholder
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Member"
+    conditions:
+      vip:
+        type: PERMISSION
+        value: "server.vip"
+        text: "VIP"
+```
+
+### Multiple Rank Levels
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Member"
+    conditions:
+      admin:
+        type: PERMISSION
+        value: "server.admin"
+        text: "Administrator"
+      moderator:
+        type: PERMISSION
+        value: "server.moderator"
+        text: "Moderator"
+      vip:
+        type: PERMISSION
+        value: "server.vip"
+        text: "VIP"
+```
+
+### Staff Status
+
+```yaml
+placeholders:
+  1:
+    placeholder: "status"
+    text: "Player"
+    conditions:
+      staff:
+        type: PERMISSION
+        value: "server.staff"
+        text: "Staff"
+```
+
+## Priority System
+
+Remember that conditions are evaluated in order. If a player has multiple permissions, the first matching condition will be used.
+
+**Example:**
+
+```yaml
+conditions:
+  vip:
+    type: PERMISSION
+    value: "server.vip"
+    text: "VIP"
+  premium:
+    type: PERMISSION
+    value: "server.premium"
+    text: "Premium"
+```
+
+If a player has both `server.vip` and `server.premium` permissions, they'll see "VIP" because it's listed first.
+
+## Best Practices
+
+1. **Use clear permission nodes** - Follow a consistent naming pattern (e.g., `server.vip`, `server.admin`)
+
+2. **Order by priority** - Place higher priority permissions first in your condition list
+
+3. **Combine with other conditions** - You can mix permission conditions with money, item, or group conditions
+
+## Related Guides
+
+- [Conditions Overview](/rocketplaceholders/conditions) - Learn about all condition types
+- [Custom Placeholders](/rocketplaceholders/custom-placeholders) - Basic placeholder creation

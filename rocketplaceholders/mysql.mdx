@@ -1,0 +1,183 @@
+---
+title: "MySQL Setup"
+description: "Learn how to synchronize placeholders across multiple servers using MySQL"
+---
+
+# MySQL Setup
+
+RocketPlaceholders supports MySQL for synchronizing placeholders across multiple servers. This allows you to manage placeholders centrally and have them automatically sync to all your servers.
+
+## Overview
+
+With MySQL synchronization, you can:
+- Manage placeholders from a single server
+- Automatically sync placeholders to all connected servers
+- Keep placeholder data consistent across your network
+
+## How It Works
+
+1. **Main Server** - One server is designated as the "main" server. This server stores placeholders in the MySQL database.
+
+2. **Other Servers** - Other servers connect to the same MySQL database and retrieve placeholders from it.
+
+3. **Synchronization** - When placeholders are updated on the main server, they're automatically available to all other servers.
+
+## Configuration
+
+### Step 1: Fill Connection Information
+
+Configure your MySQL connection settings:
+
+```yaml
+mysql:
+  # If this is not enabled will be used local placeholders
+  enabled: true
+  # The main server is the server from the placeholders are copied
+  main: true  # Set to false on other servers
+  # Database information
+  ip: "localhost"  # Your MySQL server IP
+  port: 3306
+  username: "root"  # Your MySQL username
+  password: "yourpassword"  # Your MySQL password (leave empty if none)
+  database: "rocketplaceholders"  # Database name
+```
+
+### Step 2: Choose a Main Server
+
+<Warning>
+Only one server can be the main server. Choose one server to be your main server and set `main: true` on it. Set `main: false` on all other servers.
+</Warning>
+
+**Main Server Configuration:**
+```yaml
+mysql:
+  enabled: true
+  main: true  # This server manages placeholders
+  ip: "localhost"
+  port: 3306
+  username: "root"
+  password: "yourpassword"
+  database: "rocketplaceholders"
+```
+
+**Other Servers Configuration:**
+```yaml
+mysql:
+  enabled: true
+  main: false  # This server reads from database
+  ip: "localhost"
+  port: 3306
+  username: "root"
+  password: "yourpassword"
+  database: "rocketplaceholders"
+```
+
+### Step 3: Create the Database
+
+Create the MySQL database (if it doesn't exist):
+
+```sql
+CREATE DATABASE rocketplaceholders;
+```
+
+RocketPlaceholders will automatically create the necessary tables when it connects.
+
+### Step 4: (Re)Start the Server
+
+After configuring MySQL, restart your server. RocketPlaceholders will connect to the database and sync placeholders.
+
+## How Placeholders Work with MySQL
+
+### Main Server
+
+On the main server:
+- Placeholders from the `placeholders` folder are copied to the database
+- Any changes to placeholders are saved to the database
+- The database is the source of truth
+
+### Other Servers
+
+On other servers (where `main: false`):
+- Placeholders are loaded from the MySQL database
+- Placeholders from the local `placeholders` folder are also loaded
+- Database placeholders take priority
+
+### Using Only Database Placeholders
+
+If you want to use only database placeholders (no local placeholders), simply delete all placeholders from the local `placeholders` folder:
+
+```yaml
+placeholders:
+  # Nothing here ツ
+```
+
+## Common Questions
+
+### What is the difference between MySQL and YML?
+
+With MySQL, you can sync placeholders across multiple servers. With YML (local storage), placeholders are only available on the server where they're created.
+
+### What is a Main Server?
+
+The main server is the server that stores placeholders in the database. All other servers read placeholders from the database. Only one server can be the main server.
+
+### Will MySQL cause lag?
+
+No, MySQL synchronization is optimized and won't cause noticeable lag. All database operations are performed asynchronously.
+
+### If I use MySQL, are the config's placeholders read?
+
+Yes! If the server is not a main server, you'll have:
+- Placeholders from the database (from the main server)
+- Placeholders from the local config file
+
+Database placeholders take priority over local placeholders.
+
+### How can I delete all config placeholders to use only database placeholders?
+
+Simply delete all placeholders from your local `placeholders` folder:
+
+```yaml
+placeholders:
+  # Empty - only database placeholders will be used
+```
+
+## Troubleshooting
+
+**Q: Can't connect to MySQL**  
+A: Check:
+- MySQL server is running
+- IP address and port are correct
+- Username and password are correct
+- Database exists
+- Firewall allows connections
+- MySQL user has proper permissions
+
+**Q: Placeholders aren't syncing**  
+A: Make sure:
+- MySQL is enabled on all servers
+- Main server is set correctly (only one server with `main: true`)
+- All servers are connected to the same database
+- Servers have restarted after configuration
+
+**Q: Changes aren't appearing**  
+A: Remember:
+- Only make changes on the main server
+- Changes on non-main servers won't sync
+- Restart servers after making changes
+
+## Best Practices
+
+1. **Backup your database** - Regularly backup your MySQL database containing placeholders
+
+2. **One main server** - Always have exactly one server set as main
+
+3. **Test locally first** - Test placeholder changes on the main server before expecting them on other servers
+
+4. **Monitor connections** - Keep an eye on MySQL connection logs to ensure all servers are connecting properly
+
+## Related Guides
+
+- [MySQL FAQ](/rocketplaceholders/mysql-faq) - Frequently asked questions about MySQL
+- [Configuration](/rocketplaceholders/configuration) - General configuration guide
+- [Custom Placeholders](/rocketplaceholders/custom-placeholders) - Creating placeholders

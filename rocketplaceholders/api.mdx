@@ -1,0 +1,227 @@
+---
+title: "API Reference"
+description: "Learn how to use the RocketPlaceholders API to create and manage placeholders programmatically"
+---
+
+# API Reference
+
+RocketPlaceholders provides a comprehensive API for developers to integrate custom placeholders into their plugins.
+
+## Overview
+
+The RocketPlaceholders API allows you to:
+- Add placeholders programmatically
+- Retrieve existing placeholders
+- Integrate with other plugins
+- Create dynamic placeholder systems
+
+## Adding the Plugin as a Dependency
+
+<CodeGroup>
+```groovy Gradle
+repositories {
+    maven {
+        url = uri('https://repo.codemc.org/repository/maven-public/')
+    }
+}
+
+dependencies {
+    compileOnly 'me.Lorenzo0111:RocketPlaceholders:VERSION'
+}
+```
+
+```xml Maven
+<repositories>
+    <repository>
+        <id>codemc-repo</id>
+        <url>https://repo.codemc.org/repository/maven-public/</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>me.Lorenzo0111</groupId>
+        <artifactId>RocketPlaceholders</artifactId>
+        <version>VERSION</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+```
+
+```txt Manual
+Download the latest release from:
+https://github.com/Lorenzo0111/RocketPlaceholders/releases/latest
+
+Add it as a dependency in your project.
+```
+</CodeGroup>
+
+<Info>
+Replace `VERSION` with the latest version. Check the [releases page](https://github.com/Lorenzo0111/RocketPlaceholders/releases/latest) for the current version.
+</Info>
+
+## Getting the API
+
+Get the RocketPlaceholders API instance using Bukkit's ServicesManager:
+
+```java
+RocketPlaceholdersAPI api = Bukkit.getServicesManager().load(RocketPlaceholdersAPI.class);
+if (api != null) {
+    this.getLogger().info("RocketPlaceholders hooked!");
+} else {
+    this.getLogger().severe("Unable to find RocketPlaceholdersAPI, disabling..");
+    this.getServer().getPluginManager().disablePlugin(this);
+}
+```
+
+<Warning>
+Always check if the API is null before using it. RocketPlaceholders might not be installed or enabled.
+</Warning>
+
+## Adding Placeholders
+
+### Without Permission Nodes
+
+Create a simple placeholder without permission requirements:
+
+```java
+this.getAPI().addPlaceholder(new PlaceholderBuilder("identifier", "text"));
+```
+
+**Example:**
+```java
+api.addPlaceholder(new PlaceholderBuilder("welcome", "Welcome to our server!"));
+```
+
+This creates a placeholder `%rp_welcome%` that displays "Welcome to our server!".
+
+### With Permission Nodes
+
+Create a placeholder that shows different text based on permissions:
+
+```java
+this.api.addPlaceholder(
+    new PlaceholderBuilder("identifier", "text")
+        .createPermissionNode("permission.example", "secret text")
+);
+```
+
+**Example:**
+```java
+api.addPlaceholder(
+    new PlaceholderBuilder("status", "Regular Player")
+        .createPermissionNode("server.vip", "VIP Member")
+);
+```
+
+**How it works:**
+- Players without `server.vip` permission see: "Regular Player"
+- Players with `server.vip` permission see: "VIP Member"
+
+## Retrieving Placeholders
+
+### Internal Placeholders
+
+Get all internal placeholders (placeholders defined in config files):
+
+```java
+this.getAPI().getInternalPlaceholders().getStorageManager().getInternalPlaceholders();
+```
+
+### External Placeholders
+
+Get all external placeholders (placeholders added via API):
+
+```java
+this.getAPI().getInternalPlaceholders().getStorageManager().getExternalPlaceholders().getHashMap();
+```
+
+## Important Notes
+
+<Danger>
+Placeholders added via API won't be synchronized with MySQL. They are stored locally on each server.
+</Danger>
+
+If you're using MySQL synchronization:
+- API placeholders are local to each server
+- They won't sync across your network
+- Consider using the configuration files for placeholders that need to sync
+
+## API Cookbook
+
+For more examples and advanced usage, check out the [RocketPlaceholders API Cookbook](https://github.com/RocketPluginsMC/RocketPlaceholdersAPI-Cookbook).
+
+The cookbook includes:
+- Advanced placeholder creation examples
+- Integration patterns
+- Best practices
+- Common use cases
+
+## Javadocs
+
+<Info>
+For complete API documentation, see the [RocketPlaceholders Javadocs](https://rocketplaceholders.jd.rocketplugins.space/).
+</Info>
+
+The Javadocs include:
+- Complete class references
+- Method documentation
+- Parameter descriptions
+- Return type information
+
+## Example Integration
+
+Here's a complete example of integrating RocketPlaceholders into your plugin:
+
+```java
+public class MyPlugin extends JavaPlugin {
+    private RocketPlaceholdersAPI api;
+    
+    @Override
+    public void onEnable() {
+        // Get the API
+        api = Bukkit.getServicesManager().load(RocketPlaceholdersAPI.class);
+        
+        if (api == null) {
+            getLogger().severe("RocketPlaceholders not found! Disabling plugin.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        
+        // Add a placeholder
+        api.addPlaceholder(
+            new PlaceholderBuilder("myplugin_status", "Online")
+                .createPermissionNode("myplugin.admin", "Admin Mode")
+        );
+        
+        getLogger().info("RocketPlaceholders integration enabled!");
+    }
+    
+    @Override
+    public void onDisable() {
+        // Clean up if needed
+    }
+}
+```
+
+## Best Practices
+
+1. **Check for API availability** - Always verify the API is available before using it
+
+2. **Handle errors gracefully** - Wrap API calls in try-catch blocks if needed
+
+3. **Use descriptive identifiers** - Choose clear placeholder names (e.g., `myplugin_status` instead of `status`)
+
+4. **Document your placeholders** - Let users know what placeholders your plugin provides
+
+5. **Consider MySQL sync** - If you need placeholders to sync across servers, use config files instead of the API
+
+## Related Resources
+
+- [API Cookbook](https://github.com/RocketPluginsMC/RocketPlaceholdersAPI-Cookbook) - Examples and patterns
+- [Javadocs](https://rocketplaceholders.jd.rocketplugins.space/) - Complete API documentation
+- [GitHub Repository](https://github.com/Lorenzo0111/RocketPlaceholders) - Source code and issues
+
+## Support
+
+Need help with the API? Join our [Discord server](https://to.lorenzo0111.me/discord) for developer support!

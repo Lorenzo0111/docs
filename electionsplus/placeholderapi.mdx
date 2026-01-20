@@ -1,0 +1,82 @@
+---
+title: "PlaceholderAPI"
+description: "Integrate ElectionsPlus with PlaceholderAPI"
+---
+
+## Installation
+
+To use ElectionsPlus placeholders, you need to install the PlaceholderAPI expansion.
+
+<Steps>
+  <Step title="Install PlaceholderAPI">
+    Make sure you have [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) installed on your server.
+  </Step>
+  
+  <Step title="Download the expansion">
+    Run the following command in your server console or as an operator:
+    
+    ```bash
+    /papi ecloud download electionsplus
+    ```
+  </Step>
+  
+  <Step title="Load the expansion">
+    After downloading, reload PlaceholderAPI or restart your server to load the expansion.
+  </Step>
+</Steps>
+
+## Available Placeholders
+
+Use these placeholders in any plugin that supports PlaceholderAPI:
+
+### General Placeholders
+
+| Placeholder | Description | Example Output |
+|-------------|-------------|----------------|
+| `%elections_open%` | The number of elections that are currently open | `3` |
+| `%election_isopen%` | Whether there is at least one election open | `true` or `false` |
+
+### Election-Specific Placeholders
+
+| Placeholder | Description | Example Output |
+|-------------|-------------|----------------|
+| `%elections_isopen_<name>%` | Whether a specific election is open. Replace `<name>` with the election name | `true` or `false` |
+| `%elections_voted_<election>%` | Whether the player has voted in a specific election | `true` or `false` |
+
+## Usage Examples
+
+<CodeGroup>
+
+```yaml Scoreboard (DeluxeMenus)
+menu_title: 'Elections'
+rows: 3
+items:
+  status:
+    material: PAPER
+    slot: 13
+    display_name: '&aElection Status'
+    lore:
+      - '&7Open Elections: &e%elections_open%'
+      - '&7Presidential Open: &e%elections_isopen_presidential%'
+      - '&7You voted: &e%elections_voted_presidential%'
+```
+
+```yaml Chat (EssentialsX)
+format: '{DISPLAYNAME} &8[&e{elections_voted_presidential}&8]&r: {MESSAGE}'
+```
+
+```yaml Tab List
+header:
+  - '&6&lElection Server'
+  - '&7Open Elections: &e%elections_open%'
+footer:
+  - '&7Vote now using /elections vote'
+```
+
+</CodeGroup>
+
+## Cache Notice
+
+<Info>
+PlaceholderAPI expansions use the plugin's cache system. The cache duration can be configured in the main config file. See [Configuration](/electionsplus/configuration#cache-duration) for more details.
+</Info>

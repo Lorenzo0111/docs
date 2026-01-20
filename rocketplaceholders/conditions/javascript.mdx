@@ -1,0 +1,213 @@
+---
+title: "JavaScript Condition"
+description: "Learn how to use JavaScript expressions to create advanced placeholder conditions"
+---
+
+# JavaScript Condition
+
+The JavaScript condition allows you to create complex conditions using JavaScript expressions. This provides maximum flexibility for creating advanced placeholder logic.
+
+## Overview
+
+With JavaScript conditions, you can create placeholders that evaluate complex expressions, check multiple conditions, and perform calculations.
+
+<Warning>
+The JavaScript feature requires RocketPlaceholders 1.9.1+ and the [JShader](https://git.io/Jnq1P) plugin.
+</Warning>
+
+## Available Variables
+
+You have access to two variables in your JavaScript expressions:
+
+- **`Player`** - Represents the [Player](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Player.html) object
+- **`Server`** - Represents the [Server](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Server.html) object
+
+## How It Works
+
+Your JavaScript expression must return a **boolean** value (`true` or `false`). If the expression evaluates to `true`, the condition matches and the placeholder text is displayed.
+
+## Configuration
+
+To create a JavaScript condition, set the type to `JAVASCRIPT` and provide a JavaScript expression as the value.
+
+### Basic Example
+
+```yaml
+placeholders:
+  1:
+    placeholder: "status"
+    text: "Default"
+    conditions:
+      javascriptExample:
+        type: JAVASCRIPT
+        value: "Player.hasPermission('example.permission');"
+        text: "Example condition text"
+```
+
+**How it works:**
+- If the expression returns `true` (player has permission), show: "Example condition text"
+- If the expression returns `false`, show: "Default"
+
+## Real-World Examples
+
+### Permission Check
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Member"
+    conditions:
+      admin:
+        type: JAVASCRIPT
+        value: "Player.hasPermission('server.admin');"
+        text: "Administrator"
+      vip:
+        type: JAVASCRIPT
+        value: "Player.hasPermission('server.vip');"
+        text: "VIP"
+```
+
+### Multiple Conditions
+
+```yaml
+placeholders:
+  1:
+    placeholder: "status"
+    text: "Regular"
+    conditions:
+      special:
+        type: JAVASCRIPT
+        value: "Player.hasPermission('server.vip') && Player.getLevel() >= 50;"
+        text: "VIP Level 50+"
+```
+
+### World Check
+
+```yaml
+placeholders:
+  1:
+    placeholder: "location"
+    text: "Unknown"
+    conditions:
+      nether:
+        type: JAVASCRIPT
+        value: "Player.getWorld().getName() === 'world_nether';"
+        text: "In Nether"
+      end:
+        type: JAVASCRIPT
+        value: "Player.getWorld().getName() === 'world_the_end';"
+        text: "In End"
+```
+
+### Health Check
+
+```yaml
+placeholders:
+  1:
+    placeholder: "health_status"
+    text: "Healthy"
+    conditions:
+      critical:
+        type: JAVASCRIPT
+        value: "Player.getHealth() < 5;"
+        text: "Critical Health"
+      low:
+        type: JAVASCRIPT
+        value: "Player.getHealth() < 10;"
+        text: "Low Health"
+```
+
+### Game Mode Check
+
+```yaml
+placeholders:
+  1:
+    placeholder: "mode"
+    text: "Survival"
+    conditions:
+      creative:
+        type: JAVASCRIPT
+        value: "Player.getGameMode().toString() === 'CREATIVE';"
+        text: "Creative Mode"
+      spectator:
+        type: JAVASCRIPT
+        value: "Player.getGameMode().toString() === 'SPECTATOR';"
+        text: "Spectator Mode"
+```
+
+### Complex Logic
+
+```yaml
+placeholders:
+  1:
+    placeholder: "tier"
+    text: "Basic"
+    conditions:
+      elite:
+        type: JAVASCRIPT
+        value: "Player.hasPermission('server.vip') && Player.getLevel() >= 100 && Player.getHealth() === Player.getMaxHealth();"
+        text: "Elite Player"
+```
+
+## Using JavaScript in Placeholder Text
+
+You can also use JavaScript expressions directly in placeholder text (without conditions):
+
+```yaml
+placeholders:
+  1:  # DO NOT USE THE 0 NUMBER
+    placeholder: "test"
+    text: "'Hello World' === 'Hello World' ? 'YES' : 'NO'"  # This will return YES
+    parsejs: true
+```
+
+<Info>
+When using `parsejs: true`, the JavaScript expression is evaluated and the result is displayed as the placeholder text.
+</Info>
+
+## JavaScript Expression Tips
+
+1. **Return boolean values** - Conditions must return `true` or `false`
+
+2. **Use proper syntax** - Follow JavaScript syntax rules
+
+3. **Access Player methods** - Use `Player.methodName()` to access player methods
+
+4. **Access Server methods** - Use `Server.methodName()` to access server methods
+
+5. **String comparisons** - Use `===` for strict equality checks
+
+6. **Logical operators** - Use `&&` (AND), `||` (OR), `!` (NOT)
+
+## Common Player Methods
+
+Here are some commonly used Player methods:
+
+- `Player.hasPermission(String permission)` - Check permission
+- `Player.getLevel()` - Get player level
+- `Player.getHealth()` - Get current health
+- `Player.getMaxHealth()` - Get max health
+- `Player.getWorld()` - Get player's world
+- `Player.getGameMode()` - Get game mode
+- `Player.getName()` - Get player name
+
+## Troubleshooting
+
+**Q: The condition isn't working**  
+A: Make sure:
+- JShader is installed and enabled
+- RocketPlaceholders version is 1.9.1 or higher
+- Your JavaScript syntax is correct
+- The expression returns a boolean value
+
+**Q: Getting errors**  
+A: Check:
+- JavaScript syntax is valid
+- Method names are correct (case-sensitive)
+- Variables are properly referenced
+
+## Related Guides
+
+- [Conditions Overview](/rocketplaceholders/conditions) - Learn about all condition types
+- [Custom Placeholders](/rocketplaceholders/custom-placeholders) - Basic placeholder creation

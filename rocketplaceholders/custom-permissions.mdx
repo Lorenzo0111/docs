@@ -1,0 +1,146 @@
+---
+title: "Custom Permissions (Deprecated)"
+description: "Legacy guide for the deprecated custom permissions system. Use conditions instead."
+---
+
+# Custom Permissions (Deprecated)
+
+<Danger>
+This section has been deprecated. Please use [Custom Conditions](/rocketplaceholders/conditions) instead. The custom permissions system is still functional but no longer recommended for new setups.
+</Danger>
+
+## Overview
+
+The custom permissions system allowed you to create placeholders with multiple permission levels. While still functional, the conditions system provides more flexibility and is the recommended approach.
+
+## Creating a MultiPermission Placeholder
+
+With RocketPlaceholders you can create a custom placeholder based on multiple permission levels.
+
+### Basic Structure
+
+```yaml
+placeholders:
+  1:
+    placeholder: "example"
+    text: "This is an example"  # Default text for players without any permission
+    permissions:
+      1:
+        permission: "example.example"
+        text: "Example"
+```
+
+**How it works:**
+- Players **without** `example.example` permission see: "This is an example"
+- Players **with** `example.example` permission see: "Example"
+
+### Multiple Permission Levels
+
+You can create unlimited permission levels:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "example"
+    text: "This is an example"
+    permissions:
+      1:
+        permission: "example.example"
+        text: "Example"
+      2:
+        permission: "example.2"
+        text: "Example 2"
+      3:
+        permission: "example.3"
+        text: "Example 3"
+```
+
+## Priority System
+
+The priority is based on the order in the configuration. The first matching permission will be used.
+
+**Example:**
+
+```yaml
+placeholders:
+  1:
+    placeholder: "example"
+    text: "This is an example"
+    permissions:
+      1:
+        permission: "example.example"
+        text: "Example"
+      2:
+        permission: "example.2"
+        text: "Example 2"
+```
+
+If a player has both `example.example` and `example.2` permissions, they will see "Example" because it's listed first (higher priority).
+
+## Creating a Public Placeholder
+
+Public placeholders can be viewed by everyone with the same text. Simply remove the `permissions` section:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "example"
+    text: "This is an example"
+```
+
+**Viewed text:** `This is an example` (for all players)
+
+## Migration to Conditions
+
+<Info>
+We strongly recommend migrating to the [Conditions](/rocketplaceholders/conditions) system, which provides more flexibility and features.
+</Info>
+
+### Old System (Deprecated)
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Default"
+    permissions:
+      1:
+        permission: "server.vip"
+        text: "VIP"
+      2:
+        permission: "server.admin"
+        text: "Admin"
+```
+
+### New System (Recommended)
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Default"
+    conditions:
+      vip:
+        type: PERMISSION
+        value: "server.vip"
+        text: "VIP"
+      admin:
+        type: PERMISSION
+        value: "server.admin"
+        text: "Admin"
+```
+
+## Why Use Conditions Instead?
+
+The conditions system offers several advantages:
+
+1. **More condition types** - Not just permissions, but also money, items, groups, JavaScript, and more
+2. **Better organization** - Clearer structure and naming
+3. **Active development** - New features are added to conditions, not permissions
+4. **More flexibility** - Combine multiple condition types
+
+## Related Guides
+
+- [Conditions](/rocketplaceholders/conditions) - **Recommended:** Modern condition system
+- [Custom Placeholders](/rocketplaceholders/custom-placeholders) - Basic placeholder creation
+- [Configuration](/rocketplaceholders/configuration) - Plugin configuration

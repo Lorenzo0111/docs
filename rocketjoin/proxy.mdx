@@ -1,0 +1,262 @@
+---
+title: "Proxy Setup"
+description: "Complete guide to setting up RocketJoin on BungeeCord or Velocity proxy servers"
+---
+
+# Proxy Setup
+
+RocketJoin works on both standalone Bukkit/Spigot/Paper servers and proxy servers (BungeeCord/Velocity). This guide covers everything you need to know about using RocketJoin on proxy servers.
+
+## Overview
+
+When using RocketJoin on a proxy server, you can:
+- Show join/leave messages across all connected servers
+- Display server-specific messages when players switch servers
+- Use PlaceholderAPI placeholders from the proxy (with PAPIProxyBridge)
+
+<Info>
+RocketJoin can be installed on both the proxy server and individual backend servers. This guide focuses on proxy-specific features and considerations.
+</Info>
+
+## Installation
+
+1. Download RocketJoin for your proxy type:
+   - **BungeeCord**: Use the BungeeCord version
+   - **Velocity**: Use the Velocity version
+
+2. Place the plugin in your proxy's `plugins` folder
+
+3. Restart your proxy server
+
+## PlaceholderAPI Integration
+
+### Using PlaceholderAPI on Proxy
+
+To use PlaceholderAPI placeholders from the proxy, you need to install **[PAPIProxyBridge](https://modrinth.com/plugin/papiproxybridge)**.
+
+<Info>
+PAPIProxyBridge allows you to use PlaceholderAPI placeholders on your proxy server, bridging the gap between your backend servers and the proxy.
+</Info>
+
+**Installation:**
+1. Install PAPIProxyBridge on your proxy server
+2. Install PlaceholderAPI on your backend servers
+3. Configure PAPIProxyBridge according to its documentation
+4. RocketJoin will automatically detect and use PAPIProxyBridge if available
+
+## Configuration
+
+### Proxy-Specific Messages
+
+RocketJoin supports special messages for proxy setups:
+
+```yaml
+join:
+  enabled: true
+  message: "&a{player} &7joined!"
+  otherServerMessage: "&a{player} &7joined &a{server}!"
+```
+
+**`otherServerMessage`** - This message is shown when a player joins from another server. The `{server}` placeholder contains the server name.
+
+### Server Switch Messages
+
+Server switch messages are only available on proxy servers:
+
+```yaml
+serverSwitch:
+  enabled: false
+  messageFrom: "&a{player} &7switched to &a{newServer}"
+  messageTo: "&a{player} &7came from &a{oldServer}"
+```
+
+**Available placeholders:**
+- `{oldServer}` - The server the player left
+- `{newServer}` - The server the player joined
+- `{player}` - The player's name
+
+## Common Issues and Solutions
+
+### Double Posting Join Messages
+
+**Problem:** Join messages are showing twice - once from the proxy and once from the backend server.
+
+**Solution:** Disable join and leave messages on your backend servers. Only enable them on the proxy:
+
+**Backend server config:**
+```yaml
+join:
+  enabled: false
+
+leave:
+  enabled: false
+```
+
+**Proxy server config:**
+```yaml
+join:
+  enabled: true
+  message: "&a{player} &7joined!"
+  otherServerMessage: "&a{player} &7joined &a{server}!"
+
+leave:
+  enabled: true
+  message: "&c{player} &7left!"
+  otherServerMessage: "&c{player} &7left &a{server}!"
+```
+
+### Fireworks and Sounds Don't Work
+
+<Warning>
+Fireworks and sounds don't work on proxy servers (BungeeCord/Velocity). They only work on Bukkit/Spigot/Paper servers.
+</Warning>
+
+This is a limitation of proxy servers - they can't spawn entities or play sounds. If you need fireworks and sounds, you'll need to:
+1. Enable them on your backend servers
+2. Use a plugin that can handle these effects on the proxy (if available)
+
+### Commands Not Executing
+
+Commands in RocketJoin execute on the server where the plugin is installed. If you have RocketJoin on both proxy and backend servers:
+- Proxy commands execute on the proxy
+- Backend commands execute on the backend server
+
+Make sure you're placing commands in the correct config file.
+
+## Proxy Commands
+
+RocketJoin provides different commands depending on where it's installed:
+
+- **Bukkit/Spigot/Paper**: `/rocketjoin` or `/rj`
+- **BungeeCord**: `/rjb`
+- **Velocity**: `/rjv`
+
+## Best Practices
+
+### 1. Choose Your Setup
+
+You have two main options:
+
+**Option A: Proxy-Only Setup**
+- Install RocketJoin only on the proxy
+- Disable on backend servers
+- All messages handled centrally
+- No fireworks/sounds support
+
+**Option B: Hybrid Setup**
+- Install on both proxy and backend servers
+- Use proxy for cross-server messages
+- Use backend for server-specific features (fireworks, sounds)
+- Requires careful configuration to avoid duplicates
+
+### 2. Message Configuration
+
+For proxy setups, use `otherServerMessage` to show which server players are joining from:
+
+```yaml
+join:
+  enabled: true
+  message: "&a{player} &7joined!"
+  otherServerMessage: "&a{player} &7joined &a{server}!"
+```
+
+### 3. Server Switch Messages
+
+Enable server switch messages to notify players when someone moves between servers:
+
+```yaml
+serverSwitch:
+  enabled: true
+  messageFrom: "&a{player} &7switched to &a{newServer}"
+  messageTo: "&a{player} &7came from &a{oldServer}"
+```
+
+## Example Configurations
+
+### Minimal Proxy Config
+
+```yaml
+prefix: "&8&l»"
+update-message: true
+
+join:
+  enabled: true
+  message: "&a{player} &7joined!"
+  otherServerMessage: "&a{player} &7joined &a{server}!"
+
+leave:
+  enabled: true
+  message: "&c{player} &7left!"
+  otherServerMessage: "&c{player} &7left &a{server}!"
+
+serverSwitch:
+  enabled: true
+  messageFrom: "&a{player} &7switched to &a{newServer}"
+  messageTo: "&a{player} &7came from &a{oldServer}"
+
+commands: []
+enable-hide: false
+hide-permission: "rocketjoin.silent"
+```
+
+### Advanced Proxy Config with Conditions
+
+```yaml
+prefix: "&8&l»"
+update-message: true
+
+join:
+  enabled: true
+  message: "&a{player} &7joined!"
+  otherServerMessage: "&a{player} &7joined &a{server}!"
+
+leave:
+  enabled: true
+  message: "&c{player} &7left!"
+  otherServerMessage: "&c{player} &7left &a{server}!"
+
+serverSwitch:
+  enabled: true
+  messageFrom: "&a{player} &7switched to &a{newServer}"
+  messageTo: "&a{player} &7came from &a{oldServer}"
+
+conditions:
+  vip:
+    type: PERMISSION
+    value: "rocketjoin.vip"
+    join: "&e&lVIP &7{player} joined &a{server}!"
+    leave: "&e&lVIP &7{player} left &a{server}!"
+    # Note: sound and fireworks don't work on proxy
+    commands:
+      - "say Welcome back, {player}!"
+
+commands: []
+enable-hide: false
+hide-permission: "rocketjoin.silent"
+```
+
+## Troubleshooting
+
+**Q: Messages aren't showing on the proxy**  
+A: Make sure:
+- RocketJoin is installed on the proxy server
+- Messages are enabled in the config
+- The proxy server has proper network connectivity
+
+**Q: PlaceholderAPI placeholders aren't working**  
+A: Install PAPIProxyBridge on your proxy server and configure it properly.
+
+**Q: Server switch messages aren't working**  
+A: Make sure `serverSwitch.enabled` is set to `true` and that players are actually switching between servers.
+
+## Related Guides
+
+- [Getting Started](/rocketjoin/getting-started) - Initial setup guide
+- [Configuration](/rocketjoin/configuration) - Complete configuration reference
+- [Conditions](/rocketjoin/conditions) - Custom conditions guide
+
+## Need Help?
+
+<Info>
+Still have questions? Join our [Discord server](https://to.lorenzo0111.me/discord) for support!
+</Info>

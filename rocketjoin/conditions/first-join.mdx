@@ -1,0 +1,159 @@
+---
+title: "First Join Condition"
+description: "Create special welcome messages for players joining your server for the first time"
+---
+
+# First Join Condition
+
+The First Join condition allows you to create special welcome messages and effects for players who are joining your server for the first time.
+
+## Overview
+
+This condition is perfect for creating memorable first impressions and welcoming new players to your community.
+
+## Configuration
+
+To create a first join condition, simply set the type to `FIRST`. No value is required.
+
+### Basic Example
+
+```yaml
+conditions:
+  firstJoinExample:
+    type: FIRST
+    join: "&a&lWelcome {player} to the server for the first time!"
+    leave: "&7{player} left"
+```
+
+## How It Works
+
+When a player joins:
+1. RocketJoin checks if this is their first time joining the server
+2. If it is, the custom first join message is displayed
+3. If not, the default message (or next matching condition) is used
+
+<Info>
+The first join status is tracked per server. If you're using a proxy setup, each server tracks first joins independently.
+</Info>
+
+## Real-World Examples
+
+### Simple Welcome
+
+```yaml
+conditions:
+  first-join:
+    type: FIRST
+    join: "&a&lWelcome {player} to our server!"
+    leave: "&7{player} left"
+```
+
+### Enhanced Welcome with Effects
+
+```yaml
+conditions:
+  first-join:
+    type: FIRST
+    join: "&a&l» &e&lNEW PLAYER &a&l« &7Welcome {player} to the server!"
+    leave: "&7{player} left"
+    sound: true
+    sound-type: "entity.player.levelup"
+    fireworks: true
+    fireworks-amount: 10
+```
+
+### Welcome with Commands
+
+```yaml
+conditions:
+  first-join:
+    type: FIRST
+    join: "&a&lWelcome {player}! Check out /help to get started!"
+    leave: "&7{player} left"
+    sound: true
+    sound-type: "entity.player.levelup"
+    commands:
+      - "give {player} bread 5"
+      - "give {player} wooden_sword 1"
+      - "say Welcome {player} to the server!"
+```
+
+## Combining with Other Conditions
+
+You can combine first join with other conditions. The first join condition should typically be placed first in your configuration to ensure it takes priority:
+
+```yaml
+conditions:
+  first-join:
+    type: FIRST
+    join: "&a&lWelcome {player} to the server for the first time!"
+    sound: true
+    sound-type: "entity.player.levelup"
+    fireworks: true
+    fireworks-amount: 10
+  
+  vip:
+    type: PERMISSION
+    value: "rocketjoin.vip"
+    join: "&e&lVIP &7{player} joined!"
+```
+
+<Info>
+In this example, if a VIP player joins for the first time, they'll see the first join message because it's listed first. After their first join, they'll see the VIP message on subsequent joins.
+</Info>
+
+## Advanced Example
+
+Here's a comprehensive first join setup:
+
+```yaml
+conditions:
+  first-join:
+    type: FIRST
+    join: |
+      &8&l&m========================================
+      &a&l  WELCOME {player}!
+      &7This is your first time on our server!
+      &7Use /help to get started
+      &7Use /spawn to go to spawn
+      &8&l&m========================================
+    leave: "&7{player} left"
+    sound: true
+    sound-type: "entity.player.levelup"
+    fireworks: true
+    fireworks-amount: 15
+    commands:
+      - "give {player} bread 10"
+      - "give {player} wooden_sword 1"
+      - "give {player} leather_helmet 1"
+      - "give {player} leather_chestplate 1"
+      - "give {player} leather_leggings 1"
+      - "give {player} leather_boots 1"
+      - "say Welcome {player} to the server! Check out /help!"
+```
+
+## Tips and Best Practices
+
+1. **Make it memorable** - First impressions matter! Use eye-catching colors and effects.
+
+2. **Provide guidance** - Include helpful commands or tips in your first join message.
+
+3. **Use multi-line messages** - Use `|` in YAML for multi-line messages to create formatted welcome messages.
+
+4. **Combine with starter kits** - Use the `commands` option to give new players starter items.
+
+5. **Test thoroughly** - Make sure to test your first join condition by using a test account or clearing player data.
+
+## Troubleshooting
+
+**Q: The first join message isn't showing up**  
+A: Make sure the condition is placed before other conditions in your config. Also verify that the player hasn't joined before (check your server's player data).
+
+**Q: Can I reset first join status?**  
+A: First join status is stored in your server's player data. You may need to clear player data or use a plugin that manages this.
+
+## Related Guides
+
+- [Conditions Overview](/rocketjoin/conditions) - Learn about all condition types
+- [Permission Condition](/rocketjoin/conditions/permission) - Permission-based conditions
+- [Configuration](/rocketjoin/configuration) - General configuration guide

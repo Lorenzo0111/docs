@@ -1,0 +1,225 @@
+---
+title: "Messages"
+description: "Learn how to configure and customize MultiLang plugin messages"
+---
+
+# Messages
+
+MultiLang has customizable messages that can be translated. This guide covers all available message keys and how to configure them.
+
+## Message File
+
+Plugin messages are stored in `plugins/MultiLang/messages.yml`.
+
+## Default Messages
+
+You can view the default message values in the [GitHub repository](https://github.com/Lorenzo0111/MultiLang/blob/master/src/main/resources/messages.yml).
+
+## Available Message Keys
+
+| Key                     | Description                                                                   |
+| :---------------------- | :---------------------------------------------------------------------------- |
+| `console`               | Sent when you try to execute a command that can be executed from players only |
+| `subcommands.not-found` | When a subcommand does not exist                                              |
+| `subcommands.edit`      | When you use an invalid `/lang edit` syntax                                   |
+| `already`               | When you have already chosen a language as primary language                   |
+| `current`               | Current locale message                                                        |
+| `current-other`         | Current locale of another player                                              |
+| `not-found`             | When a player does not exist                                                  |
+| `lang-not-found`        | When a language does not exist                                                |
+| `changed`               | When you change your language                                                 |
+| `gui.title`             | GUI title                                                                     |
+| `gui.current`           | `Current language` item name                                                  |
+
+## Message Examples
+
+### Console Message
+
+**Key:** `console`
+
+**Default:**
+
+```yaml
+console: "This command can only be executed by players!"
+```
+
+**Usage:** Shown when a console tries to execute a player-only command.
+
+### Subcommand Not Found
+
+**Key:** `subcommands.not-found`
+
+**Default:**
+
+```yaml
+subcommands.not-found: "Subcommand not found!"
+```
+
+**Usage:** Shown when a subcommand doesn't exist.
+
+### Subcommand Edit Error
+
+**Key:** `subcommands.edit`
+
+**Default:**
+
+```yaml
+subcommands.edit: "Invalid syntax! Use: /lang edit <identifier> <locale> <text>"
+```
+
+**Usage:** Shown when `/lang edit` syntax is incorrect.
+
+### Already Selected Language
+
+**Key:** `already`
+
+**Default:**
+
+```yaml
+already: "You have already selected this language as your primary language!"
+```
+
+**Usage:** Shown when a player tries to select a language they've already selected.
+
+### Current Language
+
+**Key:** `current`
+
+**Default:**
+
+```yaml
+current: "Your current language is: {language}"
+```
+
+**Usage:** Shows the player's current language. `{language}` is replaced with the language name.
+
+### Current Language (Other Player)
+
+**Key:** `current-other`
+
+**Default:**
+
+```yaml
+current-other: "{player}'s current language is: {language}"
+```
+
+**Usage:** Shows another player's current language. `{player}` and `{language}` are replaced with actual values.
+
+### Player Not Found
+
+**Key:** `not-found`
+
+**Default:**
+
+```yaml
+not-found: "Player not found!"
+```
+
+**Usage:** Shown when a specified player doesn't exist or isn't online.
+
+### Language Not Found
+
+**Key:** `lang-not-found`
+
+**Default:**
+
+```yaml
+lang-not-found: "Language not found!"
+```
+
+**Usage:** Shown when a specified language doesn't exist in the configuration.
+
+### Language Changed
+
+**Key:** `changed`
+
+**Default:**
+
+```yaml
+changed: "Language changed to {language}!"
+```
+
+**Usage:** Shown when a player successfully changes their language. `{language}` is replaced with the language name.
+
+### GUI Title
+
+**Key:** `gui.title`
+
+**Default:**
+
+```yaml
+gui.title: "Select Language"
+```
+
+**Usage:** The title shown in the language selection GUI.
+
+### GUI Current Language Item
+
+**Key:** `gui.current`
+
+**Default:**
+
+```yaml
+gui.current: "Current Language"
+```
+
+**Usage:** The name of the item that shows the current language in the GUI.
+
+## Customizing Messages
+
+You can customize any message by editing `messages.yml`:
+
+```yaml
+console: "&cThis command can only be executed by players!"
+changed: "&aLanguage changed to {language}!"
+gui.title: "&9&lSelect Your Language"
+```
+
+<Info>
+  All messages support Minecraft color codes (e.g., `&a` for green, `&c` for
+  red, `&l` for bold).
+</Info>
+
+## Placeholders
+
+Some messages support placeholders:
+
+- `{language}` - The language name
+- `{player}` - The player name
+
+**Example:**
+
+```yaml
+changed: "&aYour language has been changed to &e{language}&a!"
+current-other: "&7{player}'s current language is: &e{language}"
+```
+
+## Complete Example
+
+Here's a complete example of customized messages:
+
+```yaml
+console: "&cThis command can only be executed by players!"
+subcommands.not-found: "&cSubcommand not found!"
+subcommands.edit: "&cInvalid syntax! Use: /lang edit <identifier> <locale> <text>"
+already: "&eYou have already selected this language!"
+current: "&7Your current language is: &e{language}"
+current-other: "&7{player}'s current language is: &e{language}"
+not-found: "&cPlayer not found!"
+lang-not-found: "&cLanguage not found!"
+changed: "&aLanguage changed to &e{language}&a!"
+gui.title: "&9&lSelect Your Language"
+gui.current: "&7Current Language"
+```
+
+## Best Practices
+
+1. **Keep messages clear** - Use clear, concise language
+2. **Use color codes** - Make important messages stand out
+3. **Test messages** - Make sure messages display correctly in-game
+4. **Be consistent** - Use consistent color schemes and formatting
+
+## Related Guides
+
+- [Configuration](/multilang/configuration) - General configuration guide
+- [GUI](/multilang/gui) - Customize the language selection GUI

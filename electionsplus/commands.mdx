@@ -1,0 +1,104 @@
+---
+title: "Commands"
+description: "All available commands in ElectionsPlus"
+---
+
+## Available Commands
+
+Here's a complete list of all commands available in ElectionsPlus.
+
+### Create Election
+
+```bash
+/elections create <name>
+```
+
+Create a new election with an interactive menu that makes setup easy.
+
+**Permission:** `elections.create`
+
+---
+
+### Disband Party
+
+```bash
+/elections disband <name>
+```
+
+Delete a political party.
+
+<Note>
+This is an admin command and should only be given to trusted staff members.
+</Note>
+
+**Permission:** `elections.disband`
+
+---
+
+### List Elections
+
+```bash
+/elections list
+```
+
+Display a list of all elections on the server.
+
+**Permission:** `elections.list`
+
+**Sub-Permissions:**
+- `elections.edit` - Allows editing an election
+
+---
+
+### Parties
+
+```bash
+/elections parties
+```
+
+Display a list of all political parties on the server.
+
+**Permission:** `elections.parties`
+
+**Sub-Permissions:**
+- `elections.party.create` - Allows creating a new party
+- `elections.party.icon` - Allows setting a base64 image as party icon
+
+---
+
+### Reload
+
+```bash
+/elections reload
+```
+
+Reload the plugin configuration and data.
+
+**Permission:** `elections.reload`
+
+---
+
+### Vote
+
+```bash
+/elections vote [name]
+```
+
+Vote for a party using an interactive GUI. 
+
+If you specify a `[name]`, you will vote in that specific election. If no name is provided, you'll see all available elections.
+
+**Permission:** Not specified (available to all players by default)
+
+## Permission Summary
+
+| Permission | Description | Default |
+|------------|-------------|---------|
+| `elections.create` | Create elections | OP |
+| `elections.disband` | Disband parties | OP |
+| `elections.list` | List elections | All |
+| `elections.edit` | Edit elections | OP |
+| `elections.parties` | View parties | All |
+| `elections.party.create` | Create parties | All |
+| `elections.party.icon` | Set party icon | All |
+| `elections.reload` | Reload plugin | OP |

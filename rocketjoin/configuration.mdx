@@ -1,0 +1,195 @@
+---
+title: "Configuration"
+description: "Complete guide to configuring RocketJoin join messages, leave messages, titles, sounds, fireworks, and custom conditions"
+---
+
+# Configuration
+
+RocketJoin's configuration is straightforward and powerful. This guide will walk you through all available options.
+
+## Configuration Overview
+
+The config file is located at `plugins/RocketJoin/config.yml`. For each message string such as the `message` one, you can use a list to let the plugin choose a random one each time.
+
+### Random Messages Example
+
+```yaml
+message:
+  - "&a{player} &7joined!"
+  - "&a{player} &7appeared!"
+```
+
+Each time a player joins, RocketJoin will randomly select one of these messages.
+
+## Default Configuration
+
+Here's the complete default configuration with explanations:
+
+```yaml
+#    _____            _        _          _       _
+#    |  __ \          | |      | |        | |     (_)
+#    | |__) |___   ___| | _____| |_       | | ___  _ _ __
+#    |  _  // _ \ / __| |/ / _ \ __|  _   | |/ _ \| | '_ \
+#    | | \ \ (_) | (__|   <  __/ |_  | |__| | (_) | | | | |
+#    |_|  \_\___/ \___|_|\_\___|\__|  \____/ \___/|_|_| |_|
+
+# Do not change these values
+config-version: @version@
+already-asked: false
+
+# WARNING: If this plugin is running on bungeecord or velocity please read the proxy guide
+# Start of the configuration
+
+prefix: "&8&l»"
+
+# Enable Update Message on Join. Default: true
+update-message: true
+
+# Placeholders: {Player} (Name) and {DisplayPlayer} (Display Name)
+# PlaceholderAPI Support! Download it from tinyurl.com/PlaceholderAPI
+
+# Join message
+# Note:
+# otherServerMessage is only available in a proxy( Velocity or Bungeecord)
+# Additional placeholders: {server}
+join:
+  enabled: true
+  message: "&a{player} &7joined!"
+  otherServerMessage: "&a{player} &7joined &a{server}!"
+  enable-title: true
+  # Send a title to the player when they join the server!
+  title: "&a&lWelcome {player}!"
+  subtitle: "&7Welcome in ServerName Server!"
+
+leave:
+  enabled: true
+  message: "&c{player} &7left!"
+  otherServerMessage: "&c{player} &7left &a{server}!"
+
+# Only available in a proxy( Velocity or Bungeecord)
+# Called on server switch
+# Additional placeholders: {oldServer} {newServer}
+serverSwitch:
+  enabled: false
+  messageFrom: "&a{player} &7switched to &a{newServer}"
+  messageTo: "&a{player} &7came from &a{oldServer}"
+
+# Commands that will be executed from console when an user joins the server
+# If you want to disable this just set it to []
+# See the Join Commands guide for more information
+commands: []
+
+# If you enable hide feature people with the permission of hide-permission won't have a join message
+enable-hide: false
+hide-permission: "rocketjoin.silent"
+
+# ---> Custom Conditions <---
+
+conditions:
+  example-vip:
+    # Read the Conditions guide for more information
+    type: PERMISSION
+    value: "rocketjoin.vip"
+
+    join: "&e&l» &6&lVIP &7{player} joined!"
+    leave: "&e&l» &6&lVIP &7{player} left!"
+    sound: true
+    sound-type: "entity.experience_orb.pickup"
+    fireworks: false
+    fireworks-amount: 3
+    commands: []
+
+# Use \n for a new line
+# Set to "disable" to disable this feature
+welcome: "&8&l&m===============&e  Welcome &8&l&m===============\n
+    &7Welcome {player} in Minecraft Server!\n
+    Use /kit default to get your kit\n"
+```
+
+## Configuration Options Explained
+
+### Basic Settings
+
+**`prefix`** - The prefix shown before messages. Supports color codes.
+
+**`update-message`** - Enable or disable update notifications when joining the server.
+
+### Join Messages
+
+**`join.enabled`** - Enable or disable join messages globally.
+
+**`join.message`** - The message displayed when a player joins. Available placeholders:
+
+- `{player}` - Player's name
+- `{DisplayPlayer}` - Player's display name
+- Any PlaceholderAPI placeholders (if installed)
+
+**`join.otherServerMessage`** - Message shown on proxy servers when a player joins from another server. Additional placeholder:
+
+- `{server}` - The server name the player joined from
+
+**`join.enable-title`** - Enable or disable the welcome title.
+
+**`join.title`** - The main title text shown to the player.
+
+**`join.subtitle`** - The subtitle text shown below the title.
+
+### Leave Messages
+
+**`leave.enabled`** - Enable or disable leave messages globally.
+
+**`leave.message`** - The message displayed when a player leaves.
+
+**`leave.otherServerMessage`** - Message shown on proxy servers when a player leaves to another server.
+
+### Server Switch Messages
+
+<Info>
+  Server switch messages are only available on Velocity or BungeeCord proxy
+  servers.
+</Info>
+
+**`serverSwitch.enabled`** - Enable or disable server switch messages.
+
+**`serverSwitch.messageFrom`** - Message shown on the server the player left from. Placeholders:
+
+- `{oldServer}` - Server the player left
+- `{newServer}` - Server the player joined
+
+**`serverSwitch.messageTo`** - Message shown on the server the player joined.
+
+### Join Commands
+
+**`commands`** - List of commands executed from console when a player joins. Use `{player}` placeholder in commands. Set to `[]` to disable.
+
+See the [Join Commands](/rocketjoin/join-commands) guide for more details.
+
+### Hide Feature
+
+**`enable-hide`** - Enable the hide feature. Players with the hide permission won't have join/leave messages shown.
+
+**`hide-permission`** - Permission node for the hide feature (default: `rocketjoin.silent`).
+
+### Custom Conditions
+
+**`conditions`** - Define custom conditions for special join/leave messages. See the [Conditions](/rocketjoin/conditions) guide for detailed information.
+
+Each condition can have:
+
+- `join` - Custom join message
+- `leave` - Custom leave message
+- `sound` - Play a sound (true/false)
+- `sound-type` - Sound type (see [Bukkit Sound enum](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html))
+- `fireworks` - Spawn fireworks (true/false)
+- `fireworks-amount` - Number of fireworks to spawn
+- `commands` - Commands to execute on join
+
+### Welcome Message
+
+**`welcome`** - A welcome message sent to players when they join. Use `\n` for new lines. Set to `"disable"` to disable this feature.
+
+## Related Guides
+
+- [Conditions](/rocketjoin/conditions) - Learn about custom conditions
+- [Join Commands](/rocketjoin/join-commands) - Configure commands on join
+- [Proxy Setup](/rocketjoin/proxy) - Setup for BungeeCord/Velocity

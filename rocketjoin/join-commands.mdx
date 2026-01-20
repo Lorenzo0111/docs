@@ -1,0 +1,196 @@
+---
+title: "Join Commands"
+description: "Learn how to configure commands that execute automatically when players join your server"
+---
+
+# Join Commands
+
+RocketJoin allows you to execute commands automatically when players join your server. This is useful for giving starter items, setting up new players, or running any server commands.
+
+## Overview
+
+Join commands are executed from the console when a player joins. You can use the `{player}` placeholder in commands to reference the joining player.
+
+## Basic Configuration
+
+Commands are configured in the main `config.yml` file under the `commands` section:
+
+```yaml
+commands:
+  - "say Welcome {player}!"
+  - "give {player} bread 5"
+```
+
+### Disabling Commands
+
+To disable join commands, simply set the commands list to empty:
+
+```yaml
+commands: []
+```
+
+## Placeholders
+
+### Player Placeholder
+
+The `{player}` placeholder is replaced with the joining player's username.
+
+**Example:**
+
+```yaml
+commands:
+  - "say Welcome {player} to the server!"
+  - "give {player} diamond 1"
+```
+
+When a player named "Steve" joins, these commands will execute as:
+- `say Welcome Steve to the server!`
+- `give Steve diamond 1`
+
+## Common Use Cases
+
+### Starter Kit
+
+Give new players a starter kit when they join:
+
+```yaml
+commands:
+  - "give {player} bread 10"
+  - "give {player} wooden_sword 1"
+  - "give {player} leather_helmet 1"
+  - "give {player} leather_chestplate 1"
+  - "give {player} leather_leggings 1"
+  - "give {player} leather_boots 1"
+```
+
+### Welcome Message
+
+Send a welcome message to all players:
+
+```yaml
+commands:
+  - "say Welcome {player} to the server!"
+  - "broadcast {player} has joined for the first time!"
+```
+
+### Teleport to Spawn
+
+Teleport players to spawn when they join:
+
+```yaml
+commands:
+  - "spawn {player}"
+```
+
+### Set Player Properties
+
+Set various player properties:
+
+```yaml
+commands:
+  - "gamemode survival {player}"
+  - "heal {player}"
+  - "feed {player}"
+```
+
+## Commands in Conditions
+
+You can also set commands for specific conditions. This allows you to execute different commands based on player permissions or other criteria.
+
+### Example: VIP Starter Kit
+
+```yaml
+conditions:
+  vip:
+    type: PERMISSION
+    value: "rocketjoin.vip"
+    join: "&e&lVIP &7{player} joined!"
+    commands:
+      - "give {player} diamond 5"
+      - "give {player} iron_sword 1"
+      - "give {player} golden_apple 3"
+```
+
+### Example: First Join Commands
+
+```yaml
+conditions:
+  first-join:
+    type: FIRST
+    join: "&a&lWelcome {player}!"
+    commands:
+      - "give {player} bread 10"
+      - "give {player} wooden_sword 1"
+      - "say Welcome {player} to the server! Check out /help!"
+```
+
+## Advanced Examples
+
+### Conditional Commands with Multiple Actions
+
+```yaml
+commands:
+  - "say Welcome {player}!"
+  - "give {player} bread 5"
+  - "spawn {player}"
+```
+
+### Integration with Other Plugins
+
+You can integrate with other plugins' commands:
+
+```yaml
+commands:
+  - "lp user {player} parent set default"
+  - "essentials:kit starter {player}"
+  - "towny:town new {player} MyTown"
+```
+
+<Info>
+Make sure the plugins you're integrating with support console command execution and the `{player}` placeholder format.
+</Info>
+
+## Best Practices
+
+1. **Test commands first** - Always test commands in-game before adding them to the config to ensure they work as expected.
+
+2. **Use appropriate permissions** - Some commands may require specific permissions. Make sure your server console has the necessary permissions.
+
+3. **Avoid lag-inducing commands** - Be careful with commands that might cause server lag, especially if you have many players joining.
+
+4. **Order matters** - Commands execute in the order they're listed. Place important commands first.
+
+5. **Use condition-specific commands** - For player-specific actions, use commands in conditions rather than global commands.
+
+## Troubleshooting
+
+**Q: Commands aren't executing**  
+A: Check that:
+- The commands section is not set to `[]`
+- The commands are properly formatted in YAML
+- Your server console has permissions to execute the commands
+- The plugin is properly loaded
+
+**Q: Placeholders aren't working**  
+A: Make sure you're using `{player}` (with curly braces) and that the player name is being properly substituted.
+
+**Q: Commands execute but fail**  
+A: Verify that:
+- The command syntax is correct
+- Required plugins are installed and enabled
+- The server has necessary permissions
+
+## Security Considerations
+
+<Warning>
+Be careful with commands that modify player data or server state. Always test commands in a safe environment first.
+</Warning>
+
+- Avoid commands that could be exploited
+- Don't give excessive items or permissions
+- Review commands regularly for security issues
+
+## Related Guides
+
+- [Configuration](/rocketjoin/configuration) - General configuration guide
+- [Conditions](/rocketjoin/conditions) - Learn about condition-specific commands

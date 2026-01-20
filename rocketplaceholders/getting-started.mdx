@@ -1,0 +1,63 @@
+---
+title: "Getting Started"
+description: "Learn how to install and set up RocketPlaceholders, the powerful custom placeholders plugin for Minecraft servers"
+---
+
+# Getting Started
+
+RocketPlaceholders is a powerful plugin that allows you to create custom placeholders for your Minecraft server. These placeholders can be used with PlaceholderAPI and MVdWPlaceholderAPI.
+
+## Installation
+
+Follow these steps to install RocketPlaceholders:
+
+### Step 1: Install PlaceholderAPI
+
+RocketPlaceholders requires **[PlaceholderAPI](https://www.spigotmc.org/resources/6245/)** to function. Download and install PlaceholderAPI first.
+
+<Info>
+PlaceholderAPI is essential for RocketPlaceholders to work. Make sure it's installed and enabled before installing RocketPlaceholders.
+</Info>
+
+### Step 2: Install RocketPlaceholders
+
+1. Download RocketPlaceholders from the [official release page](https://github.com/Lorenzo0111/RocketPlaceholders/releases/latest)
+2. Place the `.jar` file in your server's `plugins` folder
+3. Restart your server
+
+### Step 3: Install JShader (Optional)
+
+If you plan to use the [JavaScript condition](/rocketplaceholders/conditions/javascript), you'll need to install **[JShader](https://git.io/Jnq1P)**.
+
+<Info>
+JShader is only required if you want to use JavaScript expressions in your placeholders. For basic placeholder creation, it's not necessary.
+</Info>
+
+## Quick Start
+
+After installation, RocketPlaceholders will create a configuration file at `plugins/RocketPlaceholders/config.yml`. You can start creating custom placeholders immediately!
+
+### Your First Placeholder
+
+Here's a simple example to get you started:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "welcome"
+    text: "Welcome to our server!"
+```
+
+This creates a placeholder `%rp_welcome%` (PlaceholderAPI) or `{rp_welcome}` (MVdWPlaceholderAPI) that displays "Welcome to our server!".
+
+## What's Next?
+
+Now that you've installed RocketPlaceholders, check out these guides:
+
+- [Configuration](/rocketplaceholders/configuration) - Learn how to configure the plugin
+- [Custom Placeholders](/rocketplaceholders/custom-placeholders) - Create your first custom placeholder
+- [Conditions](/rocketplaceholders/conditions) - Add conditions to your placeholders
+
+## Support
+
+Need help? Join our [Discord server](https://to.lorenzo0111.me/discord) for support!

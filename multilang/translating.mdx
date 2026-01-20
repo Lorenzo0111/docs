@@ -1,0 +1,234 @@
+---
+title: "Translating"
+description: "Learn how to translate entities, inventories, and plugin messages using MultiLang's translation system"
+---
+
+# Translating
+
+MultiLang makes it easy to translate entities, inventories, and plugin messages. This guide will show you how to use the translation system.
+
+## Overview
+
+With MultiLang, you can translate:
+
+- Entity names (mobs, items, etc.)
+- Inventory titles and item names
+- Plugin messages
+- Any text sent to players
+
+<Info>
+  Remember to install
+  [ProtocolLib](https://www.spigotmc.org/resources/protocollib.1997/) or the
+  translations won't work. ProtocolLib is required for packet manipulation.
+</Info>
+
+## How It Works
+
+MultiLang handles all packets that the server sends to the client and translates them automatically. This means you can translate:
+
+- Chat messages
+- Inventory titles
+- Entity names
+- Item names
+- And more!
+
+## Using the Translation Pattern
+
+To translate text, you need to use a special pattern: `<lang>identifier</lang>`
+
+Replace `identifier` with the identifier of your translation string (defined in `config.yml`).
+
+### Basic Example
+
+If you have a translation string with identifier `welcome`:
+
+```yaml
+strings:
+  1:
+    identifier: "welcome"
+    default: "Welcome to our server!"
+    locales:
+      italiano: "Benvenuto sul nostro server!"
+      español: "¡Bienvenido a nuestro servidor!"
+```
+
+You can use it in your plugin messages or configs:
+
+```
+<lang>welcome</lang>
+```
+
+When a player sees this, they'll see the text in their selected language!
+
+## Real-World Examples
+
+### Translating Menu Titles
+
+If you're using a menu plugin like [DeluxeMenus](https://www.spigotmc.org/resources/deluxemenus.11734/), you can translate menu titles:
+
+**Menu Config:**
+
+```yaml
+menu_title: "<lang>menu_title</lang>"
+```
+
+**MultiLang Config:**
+
+```yaml
+strings:
+  1:
+    identifier: "menu_title"
+    default: "Main Menu"
+    locales:
+      italiano: "Menu Principale"
+      español: "Menú Principal"
+      français: "Menu Principal"
+```
+
+### Translating Plugin Messages
+
+You can translate plugin messages. For example, with Essentials:
+
+**Essentials Config:**
+
+```yaml
+gamemode-change: "<lang>gamemode</lang> {0} <lang>for</lang> {1}."
+```
+
+**MultiLang Config:**
+
+```yaml
+strings:
+  1:
+    identifier: "gamemode"
+    default: "Gamemode changed to"
+    locales:
+      italiano: "Modalità di gioco cambiata in"
+      español: "Modo de juego cambiado a"
+
+  2:
+    identifier: "for"
+    default: "for"
+    locales:
+      italiano: "per"
+      español: "para"
+```
+
+### Multiple Translations in One Message
+
+You can use multiple translations in a single message:
+
+```
+<lang>gamemode</lang> {0} <lang>for</lang> {1}.
+```
+
+This example uses two translation strings:
+
+- `gamemode` - "Gamemode changed to"
+- `for` - "for"
+
+The `{0}` and `{1}` are placeholders that will be replaced with actual values (e.g., player name, gamemode name).
+
+## Advanced Examples
+
+### Custom Plugin Messages
+
+Here's an example for creating custom plugin messages:
+
+**Plugin Message:**
+
+```
+<lang>player_joined</lang> <lang>the_server</lang>!
+```
+
+**MultiLang Config:**
+
+```yaml
+strings:
+  1:
+    identifier: "player_joined"
+    default: "{player} joined"
+    locales:
+      italiano: "{player} si è unito"
+      español: "{player} se unió"
+
+  2:
+    identifier: "the_server"
+    default: "the server"
+    locales:
+      italiano: "al server"
+      español: "al servidor"
+```
+
+### Entity Names
+
+You can translate entity names in the game:
+
+**Entity Config:**
+
+```yaml
+entity_name: "<lang>zombie</lang>"
+```
+
+**MultiLang Config:**
+
+```yaml
+strings:
+  1:
+    identifier: "zombie"
+    default: "Zombie"
+    locales:
+      italiano: "Zombie"
+      español: "Zombi"
+      français: "Zombie"
+```
+
+## Best Practices
+
+1. **Use descriptive identifiers** - Choose clear names (e.g., `welcome`, `menu_title`, `player_joined`)
+
+2. **Break down complex messages** - Split long messages into multiple translation strings for better flexibility
+
+3. **Test with different languages** - Always test your translations with players who speak those languages
+
+4. **Keep placeholders** - Use `{0}`, `{1}`, etc., for dynamic values that shouldn't be translated
+
+5. **Document your translations** - Keep a list of all translation identifiers and their purposes
+
+## Troubleshooting
+
+**Q: Translations aren't showing up**  
+A: Make sure:
+
+- ProtocolLib is installed and enabled
+- The translation identifier exists in your `config.yml`
+- The `<lang>identifier</lang>` pattern is correct
+- Players have selected a language (or autodetect is working)
+
+**Q: Some text isn't translating**  
+A: Check:
+
+- The text uses the `<lang>identifier</lang>` pattern
+- The identifier is defined in your strings
+- ProtocolLib is properly installed
+
+**Q: Placeholders aren't working**  
+A: Make sure:
+
+- Placeholders like `{0}`, `{1}` are used correctly
+- The plugin sending the message supports placeholders
+- MultiLang is processing the packets correctly
+
+## Related Guides
+
+- [Configuration](/multilang/configuration) - Learn how to configure translation strings
+- [Messages](/multilang/messages) - Configure plugin messages
+- [RealTime](/multilang/realtime) - Set up real-time translation
+
+## Need Help?
+
+<Info>
+  Not sure about something? Join our [Discord
+  server](https://discord.io/RocketPlugins) - we'll help you set up
+  translations!
+</Info>

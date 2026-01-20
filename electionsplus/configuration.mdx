@@ -1,0 +1,59 @@
+---
+title: "Configuration"
+description: "Configure ElectionsPlus to suit your server's needs"
+---
+
+## How to Configure ElectionsPlus
+
+ElectionsPlus can be configured through the main configuration file. Below are the available options:
+
+## Database
+
+The database is where the plugin stores all information about elections, parties, and votes.
+
+### Type
+
+The type of database to use. You can choose between:
+- `SQLITE` - Local file-based database (default, easiest to set up)
+- `MYSQL` - MySQL database server
+- `REDIS` - Redis database
+
+<Warning>
+REDIS is currently not ready and cannot be used at this time.
+</Warning>
+
+## Join Notification
+
+Enable or disable notifications for players when they join the server and an election is open. 
+
+You can customize the notification message in `messages.yml` using the `join` key.
+
+## Escape Word
+
+When creating an election or a party, the plugin will ask for information via chat. If you want to cancel the current prompt, you can type the escape word in chat.
+
+Configure this word in the config file to match your preference.
+
+## Cache Duration
+
+The cache duration controls how often the plugin refreshes its cached data from the database.
+
+For example, if set to `5`, every 5 minutes the plugin will clear and recreate the cache with all database values.
+
+<Info>
+The cache doesn't significantly affect server performance, so you can adjust it based on your needs.
+</Info>
+
+### How Cache Affects PlaceholderAPI
+
+The [PlaceholderAPI](/electionsplus/placeholderapi) expansion uses the plugin's cache. The longer the cache duration, the more outdated the data in placeholders might be.
+
+**Default value:** 5 minutes
+
+<Warning>
+The plugin automatically adds 1 minute to your configured duration. If you set `5`, the actual duration will be `6` minutes.
+</Warning>
+
+## MiniMessage Support
+
+ElectionsPlus supports MiniMessage formatting for all messages. Learn more about MiniMessage syntax in the [official documentation](https://docs.adventure.kyori.net/minimessage.html#format).

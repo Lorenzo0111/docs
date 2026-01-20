@@ -1,0 +1,188 @@
+---
+title: "RealTime Translation"
+description: "Learn how to configure real-time translation using Google or Bing translation APIs"
+---
+
+# RealTime Translation
+
+MultiLang supports real-time translation using external translation APIs. This allows you to automatically translate text that hasn't been manually translated yet.
+
+## Overview
+
+RealTime translation uses external APIs to translate text on-the-fly. This is useful for:
+
+- Translating plugin messages that haven't been manually translated
+- Providing translations for new content automatically
+- Supporting languages you haven't manually added translations for
+
+## Choosing an API
+
+You have two API options:
+
+1. **Google Translate API** - Free but may not always work reliably
+2. **Bing Microsoft Translator API** - More reliable, requires a free API key
+
+<Info>
+  We personally suggest using Bing because Google may not work reliably.
+  However, both options are available.
+</Info>
+
+If you know another good translation API, feel free to suggest it on our [Discord server](https://discord.io/RocketPlugins).
+
+## Creating an API Key (Bing)
+
+You only need an API key if you're using Bing. Google doesn't require an API key (but may be less reliable).
+
+### Step 1: Subscribe to the API
+
+Subscribe for a free API key at [RapidAPI - Microsoft Translator](https://rapidapi.com/microsoft-azure-org-microsoft-cognitive-services/api/microsoft-translator-text/pricing).
+
+### Step 2: Retrieve Your Key
+
+After subscribing, retrieve your API key at [RapidAPI Developer Dashboard](https://rapidapi.com/developer/new).
+
+### Visual Guide
+
+Here's a simple guide showing how to retrieve your API key:
+
+![API Key Guide](https://i.imgur.com/CGHcV4T.gif)
+
+## Configuration
+
+Once you have your API key (if using Bing), configure it in your `config.yml`:
+
+```yaml
+realtime:
+  enabled: true
+  api: "bing" # or "google"
+  api-key: "your-api-key-here" # Only needed for Bing
+  cache: true
+```
+
+### Configuration Options
+
+**`enabled`** - Enable or disable real-time translation
+
+**`api`** - Choose between `"google"` or `"bing"`
+
+**`api-key`** - Your API key (only required for Bing)
+
+**`cache`** - Enable or disable caching (highly recommended)
+
+## Should I Use Cache?
+
+<Info>
+  **Yes, absolutely!** Caching will significantly reduce delay and API usage. It
+  stores translated text so it doesn't need to be translated again.
+</Info>
+
+**Benefits of caching:**
+
+- Faster translation (instant for cached text)
+- Reduced API usage
+- Lower costs (if using paid API)
+- Better performance
+
+**How it works:**
+
+- First time a text is translated: API call is made, result is cached
+- Subsequent times: Translation is retrieved from cache instantly
+
+## Database Size Management
+
+### My database size is too big. What should I do?
+
+If your cache database becomes too large, you can clear it using:
+
+```
+/multilangadmin clearCache
+```
+
+This command clears all cached translations. New translations will be cached again as they're requested.
+
+<Info>
+  Regularly clearing the cache can help manage database size, but remember that
+  cleared translations will need to be translated again (using API calls).
+</Info>
+
+## Performance
+
+### Will it cause lag?
+
+No, all translation tasks are executed asynchronously. This means they don't block the main server thread.
+
+**However:**
+
+- There may be a slight delay before your message is sent (while translation is happening)
+- If you use cache, this delay only happens the first time a text is translated
+- Subsequent translations of the same text are instant (from cache)
+
+## API Quota Limits
+
+### What will happen when I reach my quota limit?
+
+When you reach your API quota limit:
+
+- RealTime translation will be automatically disabled
+- Manual translations will still work
+- You'll need to wait for quota reset or upgrade your API plan
+
+<Info>
+  If you find an API without quota limits, please suggest it on our [Discord
+  server](https://discord.io/RocketPlugins)!
+</Info>
+
+## Best Practices
+
+1. **Use caching** - Always enable cache to improve performance and reduce API usage
+
+2. **Monitor API usage** - Keep an eye on your API usage to avoid hitting limits
+
+3. **Combine with manual translations** - Use real-time translation as a fallback, but manually translate common messages for better performance
+
+4. **Clear cache periodically** - If your database grows too large, clear the cache occasionally
+
+5. **Use Bing for reliability** - If possible, use Bing API for more reliable translations
+
+## Troubleshooting
+
+**Q: Translations aren't working**  
+A: Make sure:
+
+- RealTime is enabled in config
+- API is set correctly ("google" or "bing")
+- If using Bing, API key is correct
+- You haven't exceeded your API quota
+
+**Q: Translations are slow**  
+A: Enable caching! The first translation may be slow, but cached translations are instant.
+
+**Q: Database is too large**  
+A: Use `/multilangadmin clearCache` to clear the cache database.
+
+**Q: API quota exceeded**  
+A: Wait for quota reset, upgrade your API plan, or switch to manual translations.
+
+## Example Configuration
+
+Here's a complete example configuration:
+
+```yaml
+realtime:
+  enabled: true
+  api: "bing"
+  api-key: "your-bing-api-key-here"
+  cache: true
+```
+
+## Related Guides
+
+- [Configuration](/multilang/configuration) - General configuration guide
+- [Translating](/multilang/translating) - Manual translation guide
+
+## Need Help?
+
+<Info>
+  Still need help? Join our [Discord server](https://discord.io/RocketPlugins)
+  for support!
+</Info>

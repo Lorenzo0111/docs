@@ -1,0 +1,160 @@
+---
+title: "Conditions"
+description: "Learn how to create custom conditions for placeholders, including permission, money, item, group, and JavaScript conditions"
+---
+
+# Conditions
+
+RocketPlaceholders' conditions system allows you to create dynamic placeholders that change based on various criteria. This is the recommended way to create advanced placeholders.
+
+## Overview
+
+With conditions, you can create placeholders that display different text based on:
+
+- Player permissions
+- Player money/balance
+- Items in inventory
+- Player groups
+- JavaScript expressions
+- And more!
+
+## How Conditions Work
+
+Conditions are evaluated in order, and the first matching condition will be used. This allows you to create priority-based placeholder systems.
+
+## Creating a Condition
+
+Here's a basic example of how to create a custom condition:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "test"
+    text: "This is an example" # Default text
+    conditions:
+      permissionExample:
+        type: PERMISSION
+        value: "rocketplaceholder.example"
+        text: "Example condition"
+```
+
+**How it works:**
+
+- Players **without** the permission see: "This is an example"
+- Players **with** `rocketplaceholder.example` permission see: "Example condition"
+
+## Available Condition Types
+
+RocketPlaceholders supports the following condition types:
+
+### Permission Condition
+
+Check if a player has a specific permission node.
+
+**Type:** `PERMISSION`  
+**Requires:** Value (permission node)
+
+See the [Permission Condition](/rocketplaceholders/conditions/permission) guide for details.
+
+### Money Condition
+
+Check if a player has a certain amount of money (requires Vault and an economy plugin).
+
+**Type:** `MONEY`  
+**Requires:** Value (numeric amount)
+
+See the [Money Condition](/rocketplaceholders/conditions/money) guide for details.
+
+### Item Condition
+
+Check if a player has a specific item in their inventory.
+
+**Type:** `ITEM`  
+**Requires:** Material and optional name/lore
+
+See the [Item Condition](/rocketplaceholders/conditions/item) guide for details.
+
+### Group Condition
+
+Check if a player is in a specific group (requires Vault and a permissions plugin).
+
+**Type:** `GROUP`  
+**Requires:** Value (group name)
+
+See the [Group Condition](/rocketplaceholders/conditions/group) guide for details.
+
+### JavaScript Condition
+
+Use JavaScript expressions for complex logic (requires JShader).
+
+**Type:** `JAVASCRIPT`  
+**Requires:** Value (JavaScript expression)
+
+See the [JavaScript Condition](/rocketplaceholders/conditions/javascript) guide for details.
+
+## Priority System
+
+Conditions are evaluated in the order they appear in the configuration. The first matching condition will be used.
+
+**Example:**
+
+```yaml
+conditions:
+  vip:
+    type: PERMISSION
+    value: "server.vip"
+    text: "VIP"
+  premium:
+    type: PERMISSION
+    value: "server.premium"
+    text: "Premium"
+```
+
+If a player has both `server.vip` and `server.premium` permissions, they will see "VIP" because it's listed first.
+
+## Complete Example
+
+Here's a comprehensive example using multiple condition types:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "status"
+    text: "Default Player"
+    conditions:
+      rich:
+        type: MONEY
+        value: 10000
+        text: "Rich Player"
+      vip:
+        type: PERMISSION
+        value: "server.vip"
+        text: "VIP Member"
+      admin:
+        type: PERMISSION
+        value: "server.admin"
+        text: "Administrator"
+      staff:
+        type: GROUP
+        value: "staff"
+        text: "Staff Member"
+```
+
+## Requirement Types Reference
+
+You can view all available requirement types in the [RocketPlaceholders source code](https://github.com/Lorenzo0111/RocketPlaceholders/blob/master/src/main/java/me/lorenzo0111/rocketplaceholders/creator/conditions/RequirementType.java#L30-L54).
+
+## Best Practices
+
+1. **Order matters** - Place higher priority conditions first
+2. **Use descriptive names** - Name your conditions clearly (e.g., `vip`, `admin`, `rich_player`)
+3. **Combine condition types** - Mix different condition types for complex logic
+4. **Test thoroughly** - Always test your conditions with different player scenarios
+
+## Related Guides
+
+- [Permission Condition](/rocketplaceholders/conditions/permission) - Permission-based conditions
+- [Money Condition](/rocketplaceholders/conditions/money) - Money/balance conditions
+- [Item Condition](/rocketplaceholders/conditions/item) - Item-based conditions
+- [Group Condition](/rocketplaceholders/conditions/group) - Group-based conditions
+- [JavaScript Condition](/rocketplaceholders/conditions/javascript) - JavaScript expression conditions

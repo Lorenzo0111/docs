@@ -1,0 +1,178 @@
+---
+title: "Group Condition"
+description: "Learn how to create placeholders that change based on player groups from permissions plugins"
+---
+
+# Group Condition
+
+The Group condition allows you to create placeholders that display different text based on a player's group from a permissions plugin.
+
+## Overview
+
+This condition is perfect for creating rank-based placeholders that integrate with permission systems like LuckPerms, GroupManager, or other Vault-compatible permission plugins.
+
+<Info>
+This condition requires [Vault](https://www.spigotmc.org/resources/34315/) and a permissions plugin like [LuckPerms](https://luckperms.net).
+</Info>
+
+## Configuration
+
+To create a group condition, set the type to `GROUP` and provide the group name as the value.
+
+### Basic Example
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Default"
+    conditions:
+      groupExample:
+        type: GROUP
+        value: "ExampleGroup"
+        text: "Example condition text"
+```
+
+**How it works:**
+- Players **not in** "ExampleGroup" see: "Default"
+- Players **in** "ExampleGroup" see: "Example condition text"
+
+## Real-World Examples
+
+### Rank-Based Placeholder
+
+```yaml
+placeholders:
+  1:
+    placeholder: "rank"
+    text: "Member"
+    conditions:
+      owner:
+        type: GROUP
+        value: "owner"
+        text: "Owner"
+      admin:
+        type: GROUP
+        value: "admin"
+        text: "Administrator"
+      moderator:
+        type: GROUP
+        value: "moderator"
+        text: "Moderator"
+      vip:
+        type: GROUP
+        value: "vip"
+        text: "VIP"
+```
+
+### Staff Status
+
+```yaml
+placeholders:
+  1:
+    placeholder: "status"
+    text: "Player"
+    conditions:
+      staff:
+        type: GROUP
+        value: "staff"
+        text: "Staff Member"
+```
+
+### Donor Tiers
+
+```yaml
+placeholders:
+  1:
+    placeholder: "donor"
+    text: "Not a donor"
+    conditions:
+      platinum:
+        type: GROUP
+        value: "platinum"
+        text: "Platinum Donor"
+      gold:
+        type: GROUP
+        value: "gold"
+        text: "Gold Donor"
+      silver:
+        type: GROUP
+        value: "silver"
+        text: "Silver Donor"
+```
+
+## Priority System
+
+Remember that conditions are evaluated in order. If a player is in multiple groups, the first matching condition will be used.
+
+**Example:**
+
+```yaml
+conditions:
+  admin:
+    type: GROUP
+    value: "admin"
+    text: "Administrator"
+  moderator:
+    type: GROUP
+    value: "moderator"
+    text: "Moderator"
+```
+
+If a player is in both "admin" and "moderator" groups, they'll see "Administrator" because it's listed first.
+
+## Combining with Other Conditions
+
+You can combine group conditions with permission, money, or item conditions:
+
+```yaml
+placeholders:
+  1:
+    placeholder: "tier"
+    text: "Basic"
+    conditions:
+      vip_rich:
+        type: GROUP
+        value: "vip"
+        text: "VIP"
+      rich:
+        type: MONEY
+        value: 10000
+        text: "Wealthy"
+```
+
+## Group Name Matching
+
+The group name must match exactly as it appears in your permissions plugin. Group names are case-sensitive.
+
+**Example:**
+- If your group is "VIP" (uppercase), use `value: "VIP"`
+- If your group is "vip" (lowercase), use `value: "vip"`
+
+## Best Practices
+
+1. **Use consistent naming** - Follow your permissions plugin's group naming conventions
+
+2. **Order by priority** - Place higher priority groups first in your condition list
+
+3. **Test with your permission plugin** - Make sure group names match exactly
+
+4. **Combine with other conditions** - Use group conditions alongside permission or money conditions for complex logic
+
+## Troubleshooting
+
+**Q: The condition isn't working**  
+A: Make sure:
+- Vault is installed and enabled
+- A permissions plugin (like LuckPerms) is installed and configured
+- The permissions plugin is properly connected to Vault
+- The group name matches exactly (case-sensitive)
+- Players are actually in the specified group
+
+**Q: Multiple groups not working**  
+A: Remember that only the first matching condition is used. If a player is in multiple groups, prioritize them in your configuration.
+
+## Related Guides
+
+- [Conditions Overview](/rocketplaceholders/conditions) - Learn about all condition types
+- [Permission Condition](/rocketplaceholders/conditions/permission) - Permission-based conditions

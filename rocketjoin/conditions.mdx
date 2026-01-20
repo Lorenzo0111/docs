@@ -1,0 +1,177 @@
+---
+title: "Conditions"
+description: "Learn how to create custom conditions for special join and leave messages based on permissions, first join, and more"
+---
+
+# Conditions
+
+RocketJoin's conditions system allows you to create custom join and leave messages for specific players based on various criteria. This system is similar to the RocketPlaceholders conditions system.
+
+## Overview
+
+Conditions let you customize messages for players who meet specific requirements, such as:
+- Having a certain permission
+- Joining for the first time
+- Meeting custom criteria
+
+## How Conditions Work
+
+Conditions are evaluated in order, and the first matching condition will be used. This allows you to create priority-based message systems.
+
+## Configuration Example
+
+Here's a basic example of how to configure conditions:
+
+```yaml
+conditions:
+  example-vip:
+    # Type of the condition
+    type: PERMISSION
+    # Optional: Value (depends on condition type)
+    value: "rocketjoin.vip"
+
+    # Join and leave messages
+    join: "&e&l» &6&lVIP &7{player} joined!"
+    leave: "&e&l» &6&lVIP &7{player} left!"
+    
+    # Sound options
+    sound: true
+    sound-type: "entity.experience_orb.pickup"
+    
+    # Fireworks options
+    fireworks: false
+    fireworks-amount: 3
+    
+    # Commands to execute on join. Placeholders: {player}
+    commands: []
+```
+
+## Available Condition Types
+
+RocketJoin supports the following condition types:
+
+### Permission Condition
+
+Check if a player has a specific permission node.
+
+**Type:** `PERMISSION`  
+**Requires:** Value (permission node)
+
+See the [Permission Condition](/rocketjoin/conditions/permission) guide for details.
+
+### First Join Condition
+
+Trigger when a player joins for the first time.
+
+**Type:** `FIRST`  
+**Requires:** No value needed
+
+See the [First Join Condition](/rocketjoin/conditions/first-join) guide for details.
+
+## Condition Options
+
+Each condition can have the following options:
+
+### Messages
+
+- **`join`** - Custom join message for players matching this condition
+- **`leave`** - Custom leave message for players matching this condition
+
+Both support all standard placeholders and color codes.
+
+### Sound Effects
+
+- **`sound`** - Enable or disable sound effects (true/false)
+- **`sound-type`** - The sound to play. See the [Bukkit Sound enum](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html) for available sounds.
+
+<Info>
+Common sound types include:
+- `entity.experience_orb.pickup` - Experience orb pickup sound
+- `entity.player.levelup` - Level up sound
+- `block.note_block.pling` - Note block pling
+- `ui.toast.challenge_complete` - Challenge complete sound
+</Info>
+
+### Fireworks
+
+- **`fireworks`** - Enable or disable fireworks (true/false)
+- **`fireworks-amount`** - Number of fireworks to spawn
+
+<Warning>
+Fireworks and sounds don't work on proxy servers (BungeeCord/Velocity). They only work on Bukkit/Spigot/Paper servers.
+</Warning>
+
+### Commands
+
+- **`commands`** - List of commands to execute from console when a player matching this condition joins. Use `{player}` placeholder in commands.
+
+## Priority System
+
+Conditions are evaluated in the order they appear in the configuration file. The first matching condition will be used, so order matters!
+
+**Example:**
+
+```yaml
+conditions:
+  vip:
+    type: PERMISSION
+    value: "rocketjoin.vip"
+    join: "&e&lVIP {player} joined!"
+  
+  premium:
+    type: PERMISSION
+    value: "rocketjoin.premium"
+    join: "&6&lPREMIUM {player} joined!"
+```
+
+If a player has both `rocketjoin.vip` and `rocketjoin.premium` permissions, they will see the VIP message because it's listed first.
+
+## Advanced Examples
+
+### Multiple Conditions
+
+You can create complex condition setups:
+
+```yaml
+conditions:
+  first-join:
+    type: FIRST
+    join: "&a&lWelcome {player} to the server for the first time!"
+    sound: true
+    sound-type: "entity.player.levelup"
+    fireworks: true
+    fireworks-amount: 5
+  
+  admin:
+    type: PERMISSION
+    value: "rocketjoin.admin"
+    join: "&c&l[ADMIN] &7{player} joined!"
+    leave: "&c&l[ADMIN] &7{player} left!"
+  
+  vip:
+    type: PERMISSION
+    value: "rocketjoin.vip"
+    join: "&e&l[VIP] &7{player} joined!"
+    leave: "&e&l[VIP] &7{player} left!"
+```
+
+### Condition with Commands
+
+Execute commands when specific players join:
+
+```yaml
+conditions:
+  staff:
+    type: PERMISSION
+    value: "rocketjoin.staff"
+    join: "&b&l[STAFF] &7{player} joined!"
+    commands:
+      - "say Welcome back, {player}!"
+      - "give {player} diamond 1"
+```
+
+## Related Guides
+
+- [Permission Condition](/rocketjoin/conditions/permission) - Detailed permission condition guide
+- [First Join Condition](/rocketjoin/conditions/first-join) - First join condition guide
+- [Configuration](/rocketjoin/configuration) - General configuration guide

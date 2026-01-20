@@ -1,0 +1,218 @@
+---
+title: "Configuration"
+description: "Complete guide to configuring MultiLang, including storage options, languages, and translation strings"
+---
+
+# Configuration
+
+This guide covers all configuration options available in MultiLang.
+
+## Configuration File
+
+The main configuration file is located at `plugins/MultiLang/config.yml`.
+
+## Configuration Options
+
+Every title in the config represents a config option. Here's what each option does:
+
+### prefix
+
+The plugin prefix shown in all messages. All messages have this prefix at their start.
+
+**Example:**
+```yaml
+prefix: "&9MultiLang &8»&r"
+```
+
+### storage
+
+The storage type for player language preferences.
+
+**Options:**
+- `MYSQL` - Store languages in MySQL database (synchronizes across servers)
+- `FILE` - Store languages in local files
+
+**Example:**
+```yaml
+storage: MYSQL
+```
+
+<Info>
+If you don't have a MySQL server, you can use FILE storage. If you choose MySQL, you can synchronize player languages across multiple servers.
+</Info>
+
+### mysql
+
+MySQL database settings. Only required if `storage: MYSQL`.
+
+**Configuration:**
+```yaml
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "multilang"
+  username: "root"
+  password: "yourpassword"
+```
+
+<Info>
+If you choose FILE storage, you don't need to configure MySQL settings.
+</Info>
+
+### default
+
+The default language for players who haven't selected a language yet.
+
+**Example:**
+```yaml
+default: "english"
+```
+
+### default-base
+
+Default language base64 for the GUI. See the [GUI guide](/multilang/gui) for more information.
+
+**Example:**
+```yaml
+default-base: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+```
+
+### languages
+
+List of all languages that players can select.
+
+**Example:**
+```yaml
+languages:
+  english: "en_us"
+  italiano: "it_it"
+  español: "es_es"
+  français: "fr_fr"
+  deutsch: "de_de"
+```
+
+#### How does autodetect work?
+
+You need to put the Locale code of that language. You can view a list of Minecraft locale codes [here](https://minecraft.fandom.com/wiki/Language#Languages).
+
+**How it works:**
+- When a player joins, MultiLang checks their client language
+- If their language matches one in the `languages` list, it's automatically selected
+- Players can still manually change their language using `/lang`
+
+**Example:**
+```yaml
+languages:
+  english: "en_us"      # English (US)
+  italiano: "it_it"     # Italian
+  español: "es_es"      # Spanish (Spain)
+  français: "fr_fr"     # French
+  deutsch: "de_de"      # German
+```
+
+### strings
+
+All translated strings that can be used in placeholders.
+
+**Structure:**
+```yaml
+strings:
+  1:
+    identifier: "example"        # Placeholder identifier (%multilang_example%)
+    default: "Hello world"       # Default string if language not selected or not translated
+    locales:
+      italiano: "Ciao mondo"     # Italian translation
+      español: "Hola mundo"       # Spanish translation
+      français: "Bonjour le monde" # French translation
+```
+
+**Example:**
+```yaml
+strings:
+  1:
+    identifier: "welcome"
+    default: "Welcome to our server!"
+    locales:
+      italiano: "Benvenuto sul nostro server!"
+      español: "¡Bienvenido a nuestro servidor!"
+      français: "Bienvenue sur notre serveur!"
+  
+  2:
+    identifier: "goodbye"
+    default: "Goodbye!"
+    locales:
+      italiano: "Arrivederci!"
+      español: "¡Adiós!"
+      français: "Au revoir!"
+```
+
+**How to use:**
+- The placeholder will be `%multilang_example%` (PlaceholderAPI) or `{multilang_example}` (MVdWPlaceholderAPI)
+- If a player's language is translated, they see the translated text
+- If not translated or language not selected, they see the `default` text
+
+## Complete Example Configuration
+
+```yaml
+prefix: "&9MultiLang &8»&r"
+
+storage: FILE  # or MYSQL
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "multilang"
+  username: "root"
+  password: ""
+
+default: "english"
+default-base: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+
+languages:
+  english: "en_us"
+  italiano: "it_it"
+  español: "es_es"
+  français: "fr_fr"
+
+strings:
+  1:
+    identifier: "welcome"
+    default: "Welcome to our server!"
+    locales:
+      italiano: "Benvenuto sul nostro server!"
+      español: "¡Bienvenido a nuestro servidor!"
+      français: "Bienvenue sur notre serveur!"
+  
+  2:
+    identifier: "goodbye"
+    default: "Goodbye!"
+    locales:
+      italiano: "Arrivederci!"
+      español: "¡Adiós!"
+      français: "Au revoir!"
+```
+
+## Best Practices
+
+1. **Use descriptive identifiers** - Choose clear names for your translation strings (e.g., `welcome`, `server_name`, `player_count`)
+
+2. **Always provide defaults** - Always include a `default` value for each string
+
+3. **Organize by category** - Group related translations together
+
+4. **Test translations** - Always test your translations with players who speak those languages
+
+5. **Keep it simple** - Use the identifier system - it's simple and easy to use!
+
+## Related Guides
+
+- [Translating](/multilang/translating) - Learn how to translate entities and plugin messages
+- [Messages](/multilang/messages) - Configure plugin messages
+- [GUI](/multilang/gui) - Customize the language selection GUI
+- [RealTime](/multilang/realtime) - Set up real-time translation
+
+## Still Confused?
+
+<Info>
+Need help configuring MultiLang? Join our [Discord server](https://discord.io/RocketPlugins) - we'll help you configure the plugin!
+</Info>

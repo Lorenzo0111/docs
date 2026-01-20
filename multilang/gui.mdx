@@ -1,0 +1,143 @@
+---
+title: "GUI Configuration"
+description: "Learn how to configure the language selection GUI, including base64 textures for language icons"
+---
+
+# GUI Configuration
+
+MultiLang provides a GUI (Graphical User Interface) for players to select their language. This guide covers how to configure and customize the GUI.
+
+## Overview
+
+The GUI configuration file is located at `plugins/MultiLang/gui.yml`. In this file, you can add base64 textures for every language that will appear in the GUI.
+
+## What is Base64?
+
+In simple terms, base64 is a string containing the texture of a player head (skin). It's used to display custom icons in the language selection GUI.
+
+## How to Create a Base64
+
+You can generate a base64 from a player head using [MineSkin](https://mineskin.org):
+
+1. Go to [MineSkin.org](https://mineskin.org)
+2. Upload a skin or select a head
+3. Pick the **Texture Signature** value (this is your base64)
+
+<Info>
+  You can also use existing heads from
+  [Minecraft-Heads](https://minecraft-heads.com/). In that case, pick the
+  `value` field instead of the Texture Signature.
+</Info>
+
+### Visual Guide
+
+Here's a simple guide showing how to get the base64:
+
+![Base64 Guide](/assets/multilang/texture.gif)
+
+## Adding Base64 to a Language
+
+To add a base64 texture to a new language, add it to the `gui.yml` file:
+
+```yaml
+base:
+  # Existing bases...
+  "your-awesome-lang": "your awesome base64"
+```
+
+### Example
+
+```yaml
+base:
+  english: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+  italiano: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+  español: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+  "your-awesome-lang": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+```
+
+<Warning>
+  Make sure that you have already created the language in the
+  [`languages`](/multilang/configuration#languages) section of your `config.yml`
+  before adding it to the GUI.
+</Warning>
+
+## Language Name Matching
+
+The language name in `gui.yml` must match exactly with the language name in your `config.yml` `languages` section.
+
+**Example:**
+
+**config.yml:**
+
+```yaml
+languages:
+  english: "en_us"
+  italiano: "it_it"
+  español: "es_es"
+```
+
+**gui.yml:**
+
+```yaml
+base:
+  english: "base64_here"
+  italiano: "base64_here"
+  español: "base64_here"
+```
+
+## Complete Example
+
+Here's a complete example of a GUI configuration:
+
+```yaml
+base:
+  english: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+  italiano: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+  español: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+  français: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+  deutsch: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+```
+
+## Default Base
+
+You can also set a default base64 in your `config.yml`:
+
+```yaml
+default-base: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvIn19fQ=="
+```
+
+This will be used for languages that don't have a specific base64 defined in `gui.yml`.
+
+## Best Practices
+
+1. **Use appropriate icons** - Choose icons that represent the language (e.g., flag icons, country symbols)
+
+2. **Keep it consistent** - Use a consistent style for all language icons
+
+3. **Test the GUI** - Always test the GUI in-game to make sure icons display correctly
+
+4. **Match language names** - Ensure language names match exactly between `config.yml` and `gui.yml`
+
+## Troubleshooting
+
+**Q: Icons aren't showing up**  
+A: Make sure:
+
+- The base64 string is correct and complete
+- The language name matches exactly between `config.yml` and `gui.yml`
+- You've restarted the server after making changes
+
+**Q: Some languages don't have icons**  
+A: Languages without a base64 in `gui.yml` will use the `default-base` from `config.yml`, or show a default head if no default is set.
+
+**Q: Base64 is invalid**  
+A: Make sure:
+
+- You copied the complete base64 string
+- You're using the Texture Signature from MineSkin (not the Texture Value)
+- The base64 is properly formatted
+
+## Related Guides
+
+- [Configuration](/multilang/configuration) - General configuration guide
+- [Getting Started](/multilang/getting-started) - Initial setup

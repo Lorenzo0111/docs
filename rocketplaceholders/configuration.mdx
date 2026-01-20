@@ -1,0 +1,133 @@
+---
+title: "Configuration"
+description: "Complete guide to configuring RocketPlaceholders, including MySQL setup, prefix settings, and basic configuration"
+---
+
+# Configuration
+
+This guide covers all configuration options available in RocketPlaceholders.
+
+## Configuration File
+
+The main configuration file is located at `plugins/RocketPlaceholders/config.yml`.
+
+## Basic Configuration
+
+Here's the default configuration with explanations:
+
+```yaml
+#
+#
+#    _____  _                _           _     _
+#    |  __ \| |              | |         | |   | |
+#    | |__) | | __ _  ___ ___| |__   ___ | | __| | ___ _ __ ___
+#    |  ___/| |/ _` |/ __/ _ \ '_ \ / _ \| |/ _` |/ _ \ '__/ __|
+#    | |    | | (_| | (_|  __/ | | | (_) | | (_| |  __/ |  \__ \
+#    |_|    |_|\__,_|\___\___|_| |_|\___/|_|\__,_|\___/|_|  |___/
+#
+#
+# This config has been generated with RocketPlaceholders v@version@
+# RocketPlaceholders Wiki: https://docs.rocketplugins.space/rocketplaceholders
+
+# RocketPlaceholders prefix
+prefix: "&9RocketPlaceholders &8»&r"
+no_permission: "&cYou do not have permission to use this command!"
+debug: false
+
+# Enable Update Message on Join. Default: true
+update-message: true
+
+mysql:
+  # If this is not enabled will be used local placeholders
+  enabled: false
+  # The main server is the server from the placeholders are copied
+  main: false
+  # Database information
+  ip: 0.0.0.0
+  port: 3306
+  username: ""
+  password: ""
+  database: ""
+
+# All placeholders have been moved in the placeholders folder.
+```
+
+## Configuration Options
+
+### Basic Settings
+
+**`prefix`** - The prefix shown in plugin messages. Supports Minecraft color codes.
+
+**`no_permission`** - Message shown when a player doesn't have permission to use a command.
+
+**`debug`** - Enable debug mode for troubleshooting. Set to `true` to see detailed logs.
+
+**`update-message`** - Enable or disable update notifications when joining the server.
+
+### MySQL Configuration
+
+RocketPlaceholders supports MySQL for synchronizing placeholders across multiple servers.
+
+**`mysql.enabled`** - Enable or disable MySQL synchronization.
+
+**`mysql.main`** - Set to `true` on your main server. The main server is where placeholders are stored and copied from.
+
+**`mysql.ip`** - MySQL server IP address.
+
+**`mysql.port`** - MySQL server port (default: 3306).
+
+**`mysql.username`** - MySQL username.
+
+**`mysql.password`** - MySQL password (leave empty if no password).
+
+**`mysql.database`** - MySQL database name.
+
+<Info>
+For detailed MySQL setup instructions, see the [MySQL guide](/rocketplaceholders/mysql).
+</Info>
+
+## Placeholder Storage
+
+All custom placeholders are stored in the `placeholders` folder. Each placeholder is defined in its own YAML file.
+
+<Info>
+The placeholders folder structure allows for better organization and easier management of multiple placeholders.
+</Info>
+
+## Example Configuration
+
+### Basic Setup (Local Storage)
+
+```yaml
+prefix: "&9RocketPlaceholders &8»&r"
+no_permission: "&cYou do not have permission to use this command!"
+debug: false
+update-message: true
+
+mysql:
+  enabled: false
+```
+
+### MySQL Setup
+
+```yaml
+prefix: "&9RocketPlaceholders &8»&r"
+no_permission: "&cYou do not have permission to use this command!"
+debug: false
+update-message: true
+
+mysql:
+  enabled: true
+  main: true  # Set to false on other servers
+  ip: "localhost"
+  port: 3306
+  username: "root"
+  password: "yourpassword"
+  database: "rocketplaceholders"
+```
+
+## Related Guides
+
+- [Custom Placeholders](/rocketplaceholders/custom-placeholders) - Learn how to create placeholders
+- [MySQL Setup](/rocketplaceholders/mysql) - Detailed MySQL configuration guide
+- [Conditions](/rocketplaceholders/conditions) - Add conditions to placeholders

@@ -1,122 +1,198 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "maple",
+  "name": "Lorenzo0111's Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#FCC203",
+    "light": "#FCC203",
+    "dark": "#FCC203"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "navigation": {
-    "tabs": [
+    "products": [
       {
-        "tab": "Guides",
+        "product": "Lorenzo0111's Plugins",
+        "icon": "rocket",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "RocketJoin",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "rocketjoin/getting-started",
+              "rocketjoin/configuration",
+              {
+                "group": "Conditions",
+                "pages": [
+                  "rocketjoin/conditions",
+                  "rocketjoin/conditions/permission",
+                  "rocketjoin/conditions/first-join"
+                ]
+              },
+              "rocketjoin/join-commands",
+              "rocketjoin/proxy"
             ]
           },
           {
-            "group": "Customization",
+            "group": "RocketPlaceholders",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "rocketplaceholders/getting-started",
+              "rocketplaceholders/configuration",
+              "rocketplaceholders/custom-placeholders",
+              "rocketplaceholders/custom-permissions",
+              {
+                "group": "Conditions",
+                "pages": [
+                  "rocketplaceholders/conditions",
+                  "rocketplaceholders/conditions/permission",
+                  "rocketplaceholders/conditions/money",
+                  "rocketplaceholders/conditions/item",
+                  "rocketplaceholders/conditions/group",
+                  "rocketplaceholders/conditions/javascript"
+                ]
+              },
+              {
+                "group": "MySQL",
+                "pages": [
+                  "rocketplaceholders/mysql",
+                  "rocketplaceholders/mysql-faq"
+                ]
+              },
+              "rocketplaceholders/api"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "MultiLang",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "multilang/getting-started",
+              "multilang/configuration",
+              "multilang/translating",
+              "multilang/messages",
+              "multilang/gui",
+              "multilang/realtime"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
-        "groups": [
+        "product": "QualityArmory",
+        "icon": "gun",
+        "pages": [
+          "qualityarmory/getting-started",
           {
-            "group": "API documentation",
+            "group": "Configuration",
             "pages": [
-              "api-reference/introduction"
+              "qualityarmory/config/main",
+              "qualityarmory/config/menu",
+              "qualityarmory/config/resourcepack"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Items Config",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "qualityarmory/items/model",
+              "qualityarmory/items/gun",
+              "qualityarmory/items/ammo",
+              "qualityarmory/items/armor"
+            ]
+          },
+          {
+            "group": "Developers",
+            "pages": [
+              "qualityarmory/developers/dependency",
+              "qualityarmory/developers/api"
             ]
           }
         ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
+      },
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "product": "QualityArmoryVehicles",
+        "icon": "car",
+        "pages": [
+          {
+            "group": "Installation",
+            "icon": "download",
+            "pages": [
+              "qualityarmoryvehicles/getting-started",
+              "qualityarmoryvehicles/installation/resourcepack"
+            ]
+          },
+          {
+            "group": "Customization",
+            "icon": "palette",
+            "pages": [
+              "qualityarmoryvehicles/configuration",
+              {
+                "group": "Creating a vehicle",
+                "pages": [
+                  "qualityarmoryvehicles/vehicles/creating-vehicle",
+                  "qualityarmoryvehicles/vehicles/model"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "ElectionsPlus",
+        "icon": "check-to-slot",
+        "pages": [
+          "electionsplus/getting-started",
+          "electionsplus/installation",
+          "electionsplus/configuration",
+          "electionsplus/commands",
+          "electionsplus/placeholderapi"
+        ]
+      },
+      {
+        "product": "Farms",
+        "icon": "wheat",
+        "pages": [
+          "farms/installation",
+          "farms/configuration",
+          "farms/addons",
+          "farms/permissions",
+          "farms/tos"
+        ]
+      },
+      {
+        "product": "ConfigSync",
+        "icon": "sync",
+        "pages": [
+          "configsync/getting-started",
+          "configsync/configuration",
+          "configsync/tos"
+        ]
       }
-    ],
+    ]
+  },
+  "logo": "/assets/icon.png",
+  "navbar": {
+    "links": [],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Discord",
+      "href": "https://to.lorenzo0111.me/discord"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "discord": "https://to.lorenzo0111.me/discord",
+      "github": "https://github.com/Lorenzo0111"
+    }
+  },
+  "integrations": {
+    "posthog": {
+      "apiKey": "phc_BoG4SjreNrz7MTMcyGbQREyiHTMMWfkBShreNyzbnBt",
+      "apiHost": "https://eu.i.posthog.com"
     }
   }
 }

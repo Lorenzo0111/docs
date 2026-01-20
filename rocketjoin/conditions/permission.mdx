@@ -1,0 +1,133 @@
+---
+title: "Permission Condition"
+description: "Learn how to create custom join and leave messages for players with specific permissions"
+---
+
+# Permission Condition
+
+The Permission condition allows you to create custom join and leave messages for players who have a specific permission node.
+
+## Overview
+
+This is one of the most commonly used conditions, perfect for creating VIP, staff, or rank-based messages.
+
+## Configuration
+
+To create a permission condition, set the type to `PERMISSION` and provide the permission node as the value.
+
+### Basic Example
+
+```yaml
+conditions:
+  permissionExample:
+    type: PERMISSION
+    value: "example.permission"
+    join: "&e&lVIP &7{player} joined!"
+    leave: "&e&lVIP &7{player} left!"
+```
+
+## How It Works
+
+When a player joins or leaves:
+1. RocketJoin checks if the player has the specified permission
+2. If they do, the custom message is displayed
+3. If they don't, the default message (or next matching condition) is used
+
+## Real-World Examples
+
+### VIP Players
+
+```yaml
+conditions:
+  vip:
+    type: PERMISSION
+    value: "rocketjoin.vip"
+    join: "&e&l» &6&lVIP &7{player} joined!"
+    leave: "&e&l» &6&lVIP &7{player} left!"
+    sound: true
+    sound-type: "entity.experience_orb.pickup"
+```
+
+### Staff Members
+
+```yaml
+conditions:
+  staff:
+    type: PERMISSION
+    value: "rocketjoin.staff"
+    join: "&b&l[STAFF] &7{player} joined!"
+    leave: "&b&l[STAFF] &7{player} left!"
+    sound: true
+    sound-type: "entity.player.levelup"
+```
+
+### Administrators
+
+```yaml
+conditions:
+  admin:
+    type: PERMISSION
+    value: "rocketjoin.admin"
+    join: "&c&l[ADMIN] &7{player} joined!"
+    leave: "&c&l[ADMIN] &7{player} left!"
+    sound: true
+    sound-type: "ui.toast.challenge_complete"
+    fireworks: true
+    fireworks-amount: 3
+```
+
+## Permission Node Best Practices
+
+<Info>
+Use descriptive permission nodes that follow a clear hierarchy:
+- `rocketjoin.vip` - For VIP players
+- `rocketjoin.staff` - For staff members
+- `rocketjoin.admin` - For administrators
+- `rocketjoin.moderator` - For moderators
+</Info>
+
+## Combining with Other Options
+
+You can combine permission conditions with sounds, fireworks, and commands:
+
+```yaml
+conditions:
+  premium:
+    type: PERMISSION
+    value: "rocketjoin.premium"
+    join: "&6&l[PREMIUM] &7{player} joined!"
+    leave: "&6&l[PREMIUM] &7{player} left!"
+    sound: true
+    sound-type: "entity.experience_orb.pickup"
+    fireworks: true
+    fireworks-amount: 5
+    commands:
+      - "say Welcome back, {player}!"
+```
+
+## Priority Considerations
+
+Remember that conditions are evaluated in order. If a player has multiple permissions, the first matching condition will be used.
+
+**Example:**
+
+```yaml
+conditions:
+  vip:
+    type: PERMISSION
+    value: "rocketjoin.vip"
+    join: "&eVIP {player} joined!"
+  
+  premium:
+    type: PERMISSION
+    value: "rocketjoin.premium"
+    join: "&6PREMIUM {player} joined!"
+```
+
+If a player has both permissions, they'll see the VIP message because it's listed first.
+
+## Related Guides
+
+- [Conditions Overview](/rocketjoin/conditions) - Learn about all condition types
+- [First Join Condition](/rocketjoin/conditions/first-join) - First join condition
+- [Configuration](/rocketjoin/configuration) - General configuration guide
