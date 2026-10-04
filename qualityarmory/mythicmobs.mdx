@@ -1,0 +1,43 @@
+---
+title: "MythicMobs"
+description: "Let your MythicMobs mobs hold and shoot QualityArmory guns"
+---
+
+# MythicMobs
+
+QualityArmory adds two mechanics to [MythicMobs](https://mythiccraft.io/index.php?pages/official-mythicmobs-download/) 5, so your mobs can hold and shoot guns.
+
+<Info>Mobs do not use ammo and do not need to reload. The fire rate is controlled by the timer of your skill.</Info>
+
+## qaequip
+
+Equips a QualityArmory item to the mob.
+
+| Attribute | Aliases | Description | Default |
+| --- | --- | --- | --- |
+| `item` | `i`, `gun`, `g` | The name of the QualityArmory item | |
+| `slot` | `s` | The slot of the item: `HAND`, `OFFHAND` or `HEAD` | `HAND` |
+| `dropchance` | | The chance (0.0-1.0) of dropping the item on death | `0` |
+
+## qashoot
+
+Shoots a gun at the target entity or location.
+
+| Attribute | Aliases | Description | Default |
+| --- | --- | --- | --- |
+| `gun` | `g`, `weapon` | The name of the gun. If not set, the gun in the main hand of the mob is used | |
+| `sway` | | Multiplier of the gun's sway. `1.0` is as accurate as a player standing still, `0` is a perfect aim and higher values make the mob less accurate | `1.0` |
+
+<Warning>Guns with custom projectiles (like the RPG or the flamethrower) are shot as regular bullets.</Warning>
+
+## Example
+
+```yaml
+Soldier:
+  Type: ZOMBIE
+  Display: '&cSoldier'
+  Health: 40
+  Skills:
+  - qaequip{item=ak47} @self ~onSpawn
+  - qashoot{sway=2} @target ~onTimer:10
+```

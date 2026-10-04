@@ -34,7 +34,11 @@ Below you can find a list of all the options that you can configure and their ex
 * **SecondsTillRPIsSent**: `5.0` - The delay in seconds after a player joins before the resource pack prompt is sent (if `sendOnJoin` is true).
 * **enableBulletTrails**: `true` - If `true`, displays particle trails following bullets.
 * **BulletTrailsSpacing**: `0.5` - The distance (in blocks) between particles in a bullet trail.
+* **forceParticleRendering**: `false` - If `true`, gun particles (bullet trails, muzzle smoke, explosions) are sent with the "force" flag, so players can see them from far away instead of only within the default client range. This can impact the performance of the clients.
 * **enableIgnoreArmorProtection**: `false` - If `true`, bullets ignore the protection value of armor worn by the target.
+* **armorEffectiveness**: `1.0` - How much armor reduces the damage of weapons. `1.0` is the vanilla behaviour, `0.5` makes armor half as effective, `0.0` makes armor useless against weapons. Values above `1.0` make armor more effective.
+* **armorDurabilityDamageMultiplier**: `1.0` - How much weapons (bullets and explosives) damage the durability of the armor worn by the target. `1.0` is the vanilla behaviour, `0.0` disables the durability loss.
+* **useProjectileDamageType**: `false` - If `true`, bullets deal projectile damage instead of regular attack damage, so the Projectile Protection enchantment applies to them and shields can block them. Requires Minecraft `1.20.4` or newer, older versions keep the default behaviour.
 * **enableIgnoreUnbreakingChecks**: `false` - If `true`, the Unbreaking enchantment on items is ignored when calculating durability loss (if `EnableWeaponDurability` is true).
 * **enableIgnoreSkipForBasegameItems**: `false` - A legacy or internal setting likely related to how the plugin handles interactions with vanilla Minecraft items.
 * **Items.enable\_Unbreaking**: `true` - If `true`, makes QualityArmory items inherently unbreakable, regardless of the `EnableWeaponDurability` setting.
@@ -70,6 +74,8 @@ Below you can find a list of all the options that you can configure and their ex
 * **Headshot\_Blacklist**: `[]` - A list of entity types (e.g., `ZOMBIE`, `PLAYER`) that are immune to the special effects of headshots (like instant kill).
 * **Enable\_Hit\_Sound**: `true` - If `true`, plays a sound effect to the shooter when they successfully hit an entity with a bullet.
 * **Hit\_Notification\_Sound**: `entity.experience_orb.pickup` - The specific sound event name to play for a hit notification.
+* **Shop\_Purchase\_Sound**: `default` - The sound played when a player buys an item from `/qa shop`. Use `default` for the default anvil sound, `none` to disable it, or any sound name (e.g., `entity.player.levelup`), including the ones of your resource pack.
+* **Crafting\_Sound**: `default` - The sound played when a player crafts an item from `/qa craft`. Accepts the same values as `Shop_Purchase_Sound`.
 * **Enable\_AutoArm\_Grenades**: `false` - If `true`, grenades are automatically armed when thrown, bypassing the need to manually "pull the pin" first.
 * **gravityConstantForDropoffCalculations**: `0.05` - The value representing gravity's effect used in calculating bullet trajectory and drop-off.
 * **allowGunReload**: `true` - A master switch to enable or disable all gun reloading mechanics.

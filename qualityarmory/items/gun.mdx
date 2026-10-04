@@ -63,6 +63,7 @@ These are all the fields used by a gun with their description:
 - **`headshotMultiplier`**: The factor by which base `damage` is multiplied when a headshot occurs. `1.0` means no extra damage.
 - **`weaponsounds_volume`**: Controls the volume multiplier for the firing sounds (`weaponsounds`).
 - **`firing_knockback`**: Applies a knockback force _to the shooter_ when firing. Negative values push backwards.
+- **`CustomProjectiles.explosionKnockback`**: For guns that use an explosive custom projectile (`CustomProjectiles.projectileType`), pushes the entities inside the `CustomProjectiles.explosionRadius` away from the explosion. The closer the entity is to the explosion, the stronger the push. `0` (default) disables it.
 - **`KilledByMessage`**: The custom death message format used when a player is killed by this weapon. Placeholders: `%player%` (victim), `%killer%` (attacker), `%name%` (weapon display name).
 - **`DestructableMaterials`**: A list of block material names (e.g., `GLASS`, `WHITE_WOOL`) that bullets from this specific gun can break. Requires `enableExplosionDamage` or similar features to be enabled globally or per-weapon. `MATERIAL_NAME_HERE` is a placeholder.
 - **`sound_equip`**: A sound that is played when the weapon is equipped.

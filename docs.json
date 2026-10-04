@@ -91,9 +91,11 @@
               "qualityarmory/items/model",
               "qualityarmory/items/gun",
               "qualityarmory/items/ammo",
-              "qualityarmory/items/armor"
+              "qualityarmory/items/armor",
+              "qualityarmory/items/grenade"
             ]
           },
+          "qualityarmory/mythicmobs",
           {
             "group": "Developers",
             "pages": [

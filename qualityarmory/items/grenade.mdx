@@ -1,0 +1,30 @@
+---
+title: "Grenade Configuration"
+description: "Complete reference for all grenade configuration options in QualityArmory"
+---
+
+# Grenade Configuration
+
+Grenades and the other throwable items are stored in the `misc` folder.
+
+<Info>I suggest copying another grenade's configuration as a reference</Info>
+
+These are all the fields used by a grenade with their description:
+
+- `invalid`: If set to `true`, this configuration file will be skipped during loading. Defaults to `false`
+- `name`: The internal, unique identifier for this item
+- `displayname`: The name shown in-game for the item. Supports color codes (e.g., `&6`). Defaults to the `name` with white color if not specified
+- `lore`: A list of strings that will appear as the item's lore. Supports color codes
+- `id`: The item id, used as durability before Minecraft `1.13` and for custom model data for newer versions
+- `variant`: Used for item variants. Defaults to 0
+- `material`: The Bukkit Material name for the item. Defaults to `DIAMOND_AXE` if not specified
+- `craftingRequirements`: Defines the materials needed to craft this item. Each string follows the format `MATERIAL_NAME,DATA_VALUE,AMOUNT`
+- `price`: The cost to purchase this item from the shop. If the price is 0 or less, `allowInShop` defaults to false. Defaults to 100
+- `allowInShop`: Explicitly sets whether this item can be bought in the shop
+- `maxItemStack`: The maximum amount of items in a single stack
+- `MiscType`: Specifies the type of item. For throwable items, this should be one of `GRENADES`, `SMOKE_GRENADES`, `FLASHBANGS`, `INCENDARY_GRENADES`, `MOLOTOV`, `STICKYGRENADE` or `PROXYMINES`
+- `damage`: The damage dealt by the explosion. The damage decreases with the distance from the explosion. Defaults to 1
+- `radius`: The radius (in blocks) of the explosion or of the effect of the item
+- `ThrowSpeed`: The speed at which the item is thrown. Defaults to 1.5
+- `FuseTime`: The time in seconds between pulling the pin and the explosion (or the start of the effect for smoke, incendiary grenades and molotovs). Defaults to 5.0. Not used by `STICKYGRENADE` and `PROXYMINES`
+- `useModernParticles`: Only for `SMOKE_GRENADES`. If `true`, uses campfire smoke particles for a denser smoke cloud. Requires Minecraft `1.14` or newer. Defaults to `false`
