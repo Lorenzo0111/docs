@@ -30,6 +30,8 @@ These are all the fields used by a gun with their description:
 - **`material`**: The base Minecraft item material used for this weapon. This affects the item's appearance if no resource pack is used and is crucial for resource packs to target the item. `CROSSBOW` and `BOW` allow for charging animations, `FISHING_ROD` can work for some effects, otherwise `DIAMOND_HOE` or other tools/items are common.
 - **`invalid`**: If set to `true`, QualityArmory will ignore this file and not load the weapon. Useful for temporarily disabling a weapon without deleting the file.
 - **`durability`**: The total durability points the weapon has if `EnableWeaponDurability` is `true` in `config.yml`. Each shot or configured action consumes durability.
+- **`repairItem`**: The item used to repair this gun when `WeaponRepair.enable` is `true` in `config.yml`. Can be a vanilla material name (e.g. `GOLD_INGOT`) or the name of any QualityArmory item. Set to `none` to prevent this gun from being repaired with items. If omitted, `WeaponRepair.defaultRepairItem` is used.
+- **`repairAmount`**: The durability restored by each repair item for this gun. If omitted, `WeaponRepair.defaultRepairAmount` is used.
 - **`maxItemStack`**: The maximum stack size for this item in inventories. Typically `1` for weapons.
 - **`setZoomLevel`**: Applies a Slowness effect to simulate scope zoom when aiming (if `enableIronSights` is true). `0` = no zoom, `1` = Slowness I, `2` = Slowness II, etc. Higher values mean more zoom.
 - **`sway`**: Configures weapon accuracy (spread). Lower values are more accurate.
@@ -41,6 +43,7 @@ These are all the fields used by a gun with their description:
 - **`firerate`**: For automatic weapons (`isAutomatic: true`), this controls how many shots are fired per "burst" or firing cycle. Often kept at `1`. The actual speed is controlled more by `delayForShoot`.
 - **`delayForReload`**: The time in seconds it takes to reload the weapon.
 - **`delayForShoot`**: The minimum time in seconds between consecutive shots (fire rate limiter). Lower values mean faster firing.
+- **`delayForSwitch`**: The time in seconds after switching to this gun before it can fire, like a "pull-out" delay. Useful to stop players from quickly switching between snipers. `0` means no delay. If omitted (or negative), the global `weaponSwitchDelay` from `config.yml` is used.
 - **`bullets-per-shot`**: The number of bullets consumed and fired with each shot. Useful for shotguns (e.g., `8`), but each projectile calculates damage independently.
 - **`isAutomatic`**: If `true`, the weapon can fire continuously when the fire button is held down (respecting `delayForShoot`). If `false`, it's semi-automatic (one shot per click).
 - **`maxBulletDistance`**: The maximum distance (in blocks) a bullet will travel before despawning or stopping calculation.

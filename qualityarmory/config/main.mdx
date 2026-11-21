@@ -14,6 +14,12 @@ Below you can find a list of all the options that you can configure and their ex
 * **KickPlayerIfDeniedResourcepack**: `false` - If `true`, players who decline the server resource pack prompt will be kicked.
 * **useDefaultResourcepack**: `true` - If `true`, the plugin uses its built-in default resource pack URLs. If `false`, it uses the URLs specified in `DefaultResourcepackOverride`.
 * **EnableWeaponDurability**: `false` - If `true`, QualityArmory weapons will lose durability when used.
+* **WeaponRepair.enable**: `false` - If `true` (and `EnableWeaponDurability` is enabled), damaged guns can be repaired by picking up the repair item with the cursor and clicking it onto the gun in any inventory. Left click uses as many items as needed for a full repair, right click uses a single item. Guns can't be repaired while reloading or in creative mode.
+* **WeaponRepair.requirePermission**: `false` - If `true`, players need the permission `qualityarmory.repair` to repair guns.
+* **WeaponRepair.defaultRepairItem**: `IRON_INGOT` - The item used to repair guns that don't set their own `repairItem`. Can be a vanilla material name or the name of any QualityArmory item (e.g. an ammo or misc item). Set to `none` to disable repairing with items by default.
+* **WeaponRepair.defaultRepairAmount**: `250` - The durability restored by each repair item, for guns that don't set their own `repairAmount`.
+* **WeaponRepair.Mending.enable**: `false` - If `true`, guns enchanted with Mending are repaired using the experience orbs the player picks up while holding them, like vanilla Mending. Not available on `1.8`.
+* **WeaponRepair.Mending.durabilityPerXP**: `2` - The durability restored for each experience point used by Mending. `2` is the vanilla value.
 * **BulletDetection.step**: `0.1` - Controls the distance interval (in blocks) for checking bullet collisions. Smaller values are more accurate but may use more server resources.
 * **BlockBullets.door**: `false` - If `true`, bullets will be stopped by door blocks.
 * **BlockBullets.halfslabs**: `false` - If `true`, bullets will be stopped by half-slab blocks.
@@ -47,6 +53,7 @@ Below you can find a list of all the options that you can configure and their ex
 * **enableReloadOnlyWhenSwapToOffhand**: `false` - If `true`, reloading is _only_ possible using the swap-to-offhand key ('F'), disabling other methods like right-click (if applicable).
 * **allowGunHitEntities**: `true` - If `true`, allows guns to register melee damage when hitting entities directly.
 * **preventHiddenPlayers**: `true` - If `true`, players hidden with the hidePlayer api method will not be able to be hit by bullets.
+* **bulletsPassThroughNPCs**: `false` - If `true`, bullets pass through NPCs (entities with the `NPC` metadata, such as Citizens NPCs) instead of hitting them.
 * **preventGunsInHoppers**: `true` - If `true`, guns cannot be moved with hoppers, this feature prevents some exploits related to item duplication.
 * **showOutOfAmmoOnTitle**: `false` - If `true`, displays a large title message on the screen when the player tries to shoot with an empty gun.
 * **showReloadingTitle**: `false` - If `true`, displays a large title message on the screen while the player is reloading.
@@ -74,6 +81,7 @@ Below you can find a list of all the options that you can configure and their ex
 * **Headshot\_Blacklist**: `[]` - A list of entity types (e.g., `ZOMBIE`, `PLAYER`) that are immune to the special effects of headshots (like instant kill).
 * **Enable\_Hit\_Sound**: `true` - If `true`, plays a sound effect to the shooter when they successfully hit an entity with a bullet.
 * **Hit\_Notification\_Sound**: `entity.experience_orb.pickup` - The specific sound event name to play for a hit notification.
+* **Hit\_Sound\_Require\_Permission**: `false` - If `true`, only players with the permission `qualityarmory.hitsound` hear the hit sound.
 * **Shop\_Purchase\_Sound**: `default` - The sound played when a player buys an item from `/qa shop`. Use `default` for the default anvil sound, `none` to disable it, or any sound name (e.g., `entity.player.levelup`), including the ones of your resource pack.
 * **Crafting\_Sound**: `default` - The sound played when a player crafts an item from `/qa craft`. Accepts the same values as `Shop_Purchase_Sound`.
 * **Enable\_AutoArm\_Grenades**: `false` - If `true`, grenades are automatically armed when thrown, bypassing the need to manually "pull the pin" first.
@@ -110,7 +118,7 @@ Below you can find a list of all the options that you can configure and their ex
 * **overrideAttackSpeed**: `true` - If `true` (primarily for `1.14+`), overrides the default item attack speed attribute, potentially allowing faster firing rates.
 * **enable_lore_gun-info_messages**: `true` - If `true`, displays weapon statistics like damage, ammo type, etc., in the item's lore text.
 * **enable_lore_gun-bullets**: `false` - If `true`, displays the bullet amount in the item's lore text. This will make the gun go "up and down" when shooting.
-* **weaponSwitchDelay**: `0` - The delay in seconds before a player can fire after switching weapon. A value of `0` means no delay.
+* **weaponSwitchDelay**: `0` - The delay in seconds before a player can fire after switching weapon. A value of `0` means no delay. Guns can override it with the `delayForSwitch` field.
 * **DefaultResourcepack**: Defines the resource pack URLs. Refer to [ResourcePack Configuration](/qualityarmory/config/resourcepack) for more information.
 * **restoreOffHand**: `false` - If `true`, restores the off-hand item after iron sights are unaimed.
 * **hitDistance**: `5` - The maximum distance (in blocks) at which a gun can register melee hits on entities when using the gun to hit directly.
