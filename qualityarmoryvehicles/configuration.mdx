@@ -165,3 +165,39 @@ If set to true, when a vehicle will touch water, it will be destroyed.
 ## modernPlaneMovements
 
 If set true, the planes and helicopters will have easier controls.
+
+## unsafe.separateModelAndDriver
+
+If set to true, the vehicle model and the driver seat are separate entities, and the model follows the driver seat.
+
+<Note>
+With this option a negative Y in a vehicle's `driverseat.Offset` would lift the whole vehicle off the ground, so the plugin uses `0` instead and shows a warning in the console.
+</Note>
+
+## hitboxes
+
+Settings for the vehicle hitboxes (added in 2.6). See [Hitboxes](/qualityarmoryvehicles/vehicles/hitboxes) for how hitboxes work.
+
+```yaml
+hitboxes:
+  reach: 4.5
+  seatSelectRadius: 1.0
+  useInteractionEntities: true
+  interactionEntitySize: 1.25
+```
+
+### hitboxes.reach
+
+The max distance, in blocks, from the player's eyes to click a vehicle.
+
+### hitboxes.seatSelectRadius
+
+When a player clicks a vehicle within this horizontal distance of a seat, they sit in that seat. Set it to `0` to turn off seat selection: players take the driver seat if it is free, or the first free passenger seat.
+
+### hitboxes.useInteractionEntities
+
+If set to true, the plugin uses invisible Interaction entities as hitboxes on 1.19.4 and newer. This lets players hit and click the whole vehicle, not only the model. Older versions always use the raycast hitbox.
+
+### hitboxes.interactionEntitySize
+
+The size of each Interaction entity that makes up a hitbox. The smallest value is `0.5`. Smaller values follow the shape of the vehicle more closely but spawn more entities.

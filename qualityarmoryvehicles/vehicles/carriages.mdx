@@ -1,0 +1,113 @@
+---
+title: "Carriages"
+description: "Create horse-drawn carriages that players pull with their own tamed animals"
+---
+
+# Carriages
+
+Carriages were added in version 2.6. They are vehicles with no engine that move only when animals are hitched to them. They do not use fuel.
+
+The speed and jump height of a carriage come from the hitched animals: faster horses make a faster carriage.
+
+On 1.14 and newer, a default `carriage` vehicle is created with the other example vehicles when `Enable_Creation_Of_Default_Files` is on.
+
+## Hitching animals
+
+1. Tame a horse, donkey or mule.
+2. Put it on a lead and walk it close to the carriage.
+3. Right-click the carriage. Every animal you are leading nearby is hitched, as long as the carriage has free hitch points.
+4. Sit in the driver seat and drive the carriage like a car.
+
+To unhitch the animals, do one of these:
+
+- Right-click the carriage while holding a lead. The animals are put back on your lead.
+- Click **Unhitch animals** in the vehicle menu.
+
+Some rules apply:
+
+- Only tamed animals can be hitched, and only by the player who tamed them.
+- The player must be allowed to drive the carriage.
+- Players with `qualityarmoryvehicles.overrideWhitelist` skip the owner and driver checks.
+- While hitched, an animal cannot be ridden or used. Hitched animals stay linked after a server restart.
+- If a hitched animal dies, the driver is told, and the carriage slows down to a stop when no animals are left.
+
+<Info>
+Hitching needs Minecraft 1.11 or newer.
+</Info>
+
+## Configuration
+
+Set `vehicle_type` to `Carriage` in the vehicle file. Carriages use the same options as the other vehicles (see [Creating a Vehicle](/qualityarmoryvehicles/vehicles/creating-vehicle)), plus a `hitch` section:
+
+```yaml
+vehicle_type: Carriage
+hitch:
+  points:
+    - ==: Vector
+      x: 2.0
+      y: 0.0
+      z: 0.0
+  radius: 6.0
+  speedMultiplier: 2.0
+  jumpMultiplier: 0.5
+  allowedAnimals:
+    - HORSE
+    - DONKEY
+    - MULE
+```
+
+### hitch.points
+
+A list of vectors for where the hitched animals stand, relative to the driver seat. +X is forward and +Z is to the right. The number of points is the max number of animals the carriage can pull.
+
+For example, two horses side by side:
+
+```yaml
+hitch:
+  points:
+    - {==: Vector, x: 2.5, y: 0.0, z: -0.7}
+    - {==: Vector, x: 2.5, y: 0.0, z: 0.7}
+```
+
+### hitch.radius
+
+How close, in blocks, a led animal must be to the carriage to be hitched.
+
+### hitch.speedMultiplier
+
+The max speed of the carriage is the average speed of the hitched animals multiplied by this value.
+
+### hitch.jumpMultiplier
+
+The jump height of the carriage is the average jump strength of the hitched animals multiplied by this value.
+
+### hitch.allowedAnimals
+
+The entity types that can be hitched to this carriage. For a list of types, see the [EntityType list](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html).
+
+## Permissions
+
+| Permission | Description | Default |
+| --- | --- | --- |
+| `qualityarmoryvehicles.hitch` | Hitch and unhitch animals | Everyone |
+
+## Messages
+
+All hitching messages can be changed in the `Messages.Hitch` section of the messages file:
+
+| Key | When it is shown |
+| --- | --- |
+| `NoAnimal` | The driver tries to move a carriage with no animals |
+| `Hitched` | Animals were hitched. Placeholders: `%amount%`, `%total%`, `%max%` |
+| `Unhitched` | Animals were unhitched. Placeholder: `%amount%` |
+| `NoneNearby` | The player holds a lead but leads no animal nearby |
+| `NotTamed` | The animal is not tamed |
+| `NotOwner` | The player did not tame the animal |
+| `Full` | The carriage has no free hitch point |
+| `NotAllowed` | The player cannot drive the carriage |
+| `NoPermission` | The player does not have `qualityarmoryvehicles.hitch` |
+| `Unsupported` | The server version does not support hitching |
+| `AnimalLost` | A hitched animal died or was lost |
+| `CannotInteract` | A player tries to use a hitched animal |
+| `UnhitchIcon` | Name of the unhitch button in the vehicle menu |
+| `UnhitchLore` | Lore of the unhitch button. Placeholders: `%total%`, `%max%` |

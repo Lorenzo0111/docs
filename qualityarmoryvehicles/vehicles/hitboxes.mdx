@@ -1,0 +1,81 @@
+---
+title: "Hitboxes"
+description: "Configure the shape of your vehicles so players can click, enter and damage them"
+---
+
+# Hitboxes
+
+Since version 2.6, every vehicle has a hitbox that matches its shape:
+
+- Click anywhere on a vehicle to enter it.
+- Click near a passenger seat to sit in that seat.
+- Hit the vehicle anywhere to damage it, if `enable_VehicleDamage` is on.
+- Players riding a vehicle no longer collide with it.
+
+On 1.19.4 and newer, the plugin places invisible Interaction entities over the hitbox. On older versions it checks where the player is looking instead. You can change this in the [`hitboxes`](/qualityarmoryvehicles/configuration#hitboxes) section of the main config.
+
+## Generated hitboxes
+
+If a vehicle file has no `hitbox` option, the plugin generates one from:
+
+- the driver and passenger seats, with some space around them and room above for the riders
+- the vehicle length, from `center`, `front_vector_offset` and `back_vector_offset`
+- the legacy `widthOffset` and `heightOffset` options
+
+This works for most vehicles. If the generated hitbox does not match the model, set the `hitbox` option.
+
+## The hitbox option
+
+The `hitbox` option is one box, or a list of boxes for vehicles with a more complex shape.
+
+| Key | Description | Default |
+| --- | --- | --- |
+| `length` | Size along the front axis (X) | Required |
+| `width` | Size along the side axis (Z) | Required |
+| `height` | Size along the vertical axis (Y) | Required |
+| `x` | X of the center of the box | `0` |
+| `y` | Y of the bottom of the box | `0` |
+| `z` | Z of the center of the box | `0` |
+
+The positions are relative to the vehicle model: +X points to the front of the vehicle, +Y is up and +Z is to the side. `length`, `width` and `height` must be greater than 0, or the box is skipped and a warning is shown in the console.
+
+### One box
+
+```yaml
+hitbox:
+  length: 4.5
+  width: 2.2
+  height: 1.8
+```
+
+### Several boxes
+
+For example, a truck with a tall cab and a lower bed:
+
+```yaml
+hitbox:
+  - length: 2.0
+    width: 2.4
+    height: 2.8
+    x: 1.8
+  - length: 3.5
+    width: 2.4
+    height: 1.6
+    x: -1.0
+```
+
+## Seeing the hitboxes
+
+Use `/qav hitbox` to show the hitboxes and seats of nearby vehicles with particles. Run it again to hide them.
+
+If you are looking at a vehicle when you run the command, the chat shows:
+
+- the boxes of that vehicle, and whether they were generated
+- the point you are looking at, in the vehicle's local coordinates
+- the seat that a click on that point would select
+
+Use the local coordinates to place the `x`, `y` and `z` of your boxes.
+
+<Info>
+The command needs the `qualityarmoryvehicles.debug` permission.
+</Info>

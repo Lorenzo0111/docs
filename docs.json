@@ -126,9 +126,19 @@
                 "group": "Creating a vehicle",
                 "pages": [
                   "qualityarmoryvehicles/vehicles/creating-vehicle",
-                  "qualityarmoryvehicles/vehicles/model"
+                  "qualityarmoryvehicles/vehicles/model",
+                  "qualityarmoryvehicles/vehicles/hitboxes",
+                  "qualityarmoryvehicles/vehicles/attachments",
+                  "qualityarmoryvehicles/vehicles/carriages"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Developers",
+            "icon": "code",
+            "pages": [
+              "qualityarmoryvehicles/developers/api"
             ]
           }
         ]

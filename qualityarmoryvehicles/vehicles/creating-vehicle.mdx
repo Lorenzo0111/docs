@@ -12,7 +12,9 @@ These are all settings.
 ## vehicle_type
 
 The vehicle type.  
-Available types: Car, Plane, Boat, Helicopter, Train, Drill, Tractor.
+Available types: Car, Plane, Boat, Helicopter, Train, Drill, Tractor, Carriage.
+
+Carriages have no engine and are pulled by hitched animals. See [Carriages](/qualityarmoryvehicles/vehicles/carriages) for their extra options.
 
 ## name
 
@@ -34,6 +36,12 @@ A vector displaying the center of that vehicle.
 
 A list of vectors representing the position of the passengers' seats.
 
+Seats keep the order of this list, so the first vector is passenger seat `0`, the second is seat `1`, and so on. Attachments use these indexes in their `seat` option.
+
+<Note>
+The whole part of Y (from 0 to 2) is read as the seat size and does not move the seat. Only the rest is a vertical offset. For example, `1` means no offset, `1.5` means +0.5, `3` means +1 and `-0.5` means -0.5.
+</Note>
+
 ## stopMeleeDamage
 
 If set to true, the vehicle will not be damaged by guns.
@@ -42,13 +50,25 @@ If set to true, the vehicle will not be damaged by guns.
 
 If set to true, the vehicle will require the fuel for being used.
 
+## hitbox
+
+The shape of the vehicle, as one box or a list of boxes. If it is missing, the hitbox is generated from the seats and the vehicle size. See [Hitboxes](/qualityarmoryvehicles/vehicles/hitboxes).
+
 ## widthOffset
 
-The width of the hitbox
+The width of the generated hitbox. It is only used when the `hitbox` option is missing.
 
 ## heightOffset
 
-The height of the hitbox
+The height of the generated hitbox. It is only used when the `hitbox` option is missing.
+
+## front_vector_offset
+
+How far the vehicle reaches toward the front. It is used to generate the hitbox.
+
+## back_vector_offset
+
+How far the vehicle reaches toward the back. It is used to generate the hitbox.
 
 ## vehicle_texture_material
 
@@ -108,6 +128,10 @@ The height of how many blocks can the vehicle jump
 
 Current available options: BABY_ARMORSTAND_HEAD, ADULT_ARMORSTAND_HEAD, ADULT_ARMORSTAND_HAND, TURTLE
 
+## model.SeatsSize
+
+The size of the passenger seats. It uses the same options as `model.ModelSize` and defaults to the value of `model.ModelSize`.
+
 ## rotationMultiplier
 
 A number that is multiplied by the calculated rotation.
@@ -123,3 +147,15 @@ The volume of the sound
 ## driverseat.Offset
 
 The vector that represents the position of the driver seat.
+
+<Warning>
+With `unsafe.separateModelAndDriver` enabled, a negative Y would make the vehicle float, so the plugin uses `0` instead.
+</Warning>
+
+## attachments
+
+Extra model parts that follow the vehicle, such as wheels or turrets. See [Attachments](/qualityarmoryvehicles/vehicles/attachments).
+
+<Info>
+The old `complexadditions` section is converted to attachments when the vehicle is loaded. The `t50tankcannon` addition becomes a turret.
+</Info>

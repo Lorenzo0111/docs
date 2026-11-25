@@ -1,0 +1,145 @@
+---
+title: "API"
+description: "Use the QualityArmoryVehicles API to work with vehicles, carriages and custom attachments"
+---
+
+# API
+
+The API is in the `me.zombie_striker.qav.api` package. `QualityArmoryVehicles` is the entry point, with static methods for every feature.
+
+Add `QualityArmoryVehicles` to the `depend` or `softdepend` list of your `plugin.yml` so your plugin loads after it.
+
+## Events
+
+The `me.zombie_striker.qav.api.events` package has Bukkit events you can listen to:
+
+| Event | Called when |
+| --- | --- |
+| `VehicleSpawnEvent` | A vehicle is spawned |
+| `VehicleDestroyEvent` | A vehicle is destroyed |
+| `VehicleDamageEvent` | A vehicle takes damage |
+| `VehicleRepairEvent` | A vehicle is repaired |
+| `PlayerEnterQAVehicleEvent` | A player enters a vehicle |
+| `PlayerExitQAVehicleEvent` | A player leaves a vehicle |
+| `VehicleChangeSpeedEvent` | The speed of a vehicle changes |
+| `VehicleTurnEvent` | A vehicle turns |
+| `VehicleHitchEvent` | An animal is hitched to a carriage (2.6+) |
+| `VehicleUnhitchEvent` | An animal is unhitched from a carriage (2.6+) |
+
+`VehicleHitchEvent` and `VehicleUnhitchEvent` can be cancelled. They give you the vehicle, the animal, the player (it can be `null` for an unhitch that no player started) and the index of the hitch point.
+
+```java
+@EventHandler
+public void onHitch(VehicleHitchEvent event) {
+    if (event.getAnimal().getType() == EntityType.MULE) {
+        event.setCancelled(true);
+    }
+}
+```
+
+## Hitboxes and seats
+
+These methods were added in 2.6:
+
+| Method | Description |
+| --- | --- |
+| `getVehicleHitPlayerLookingAt(Player)` | Returns a `HitResult` for the closest vehicle the player is looking at, within the hitbox reach, or `null` |
+| `addPlayerToCar(VehicleEntity, Player, boolean allowDriverSeat, int preferredSeat)` | Puts a player in a vehicle, in the preferred seat if it is free |
+| `isSeatFree(VehicleEntity, int)` | Returns `true` if nobody sits in the passenger seat |
+| `getFreeSeat(VehicleEntity)` | Returns the index of the first free passenger seat, or `-1` if the vehicle is full |
+
+A `HitResult` gives you the vehicle, the distance, the point in world and local coordinates, and the seat at that point.
+
+## Carriages
+
+| Method | Description |
+| --- | --- |
+| `getHitchedAnimals(VehicleEntity)` | Returns the loaded animals pulling the vehicle. The list is empty if the vehicle is not a carriage |
+| `getVehicleByHitchedAnimal(Entity)` | Returns the vehicle the animal is hitched to, or `null` |
+
+## Custom attachments
+
+[Attachments](/qualityarmoryvehicles/vehicles/attachments) are extra model parts that follow a vehicle. The built-in types are `Wheel` and `Turret`, and you can add your own.
+
+### 1. Create the attachment
+
+Extend `me.zombie_striker.qav.attachments.Attachment`. You must implement `animate`. You can also override the other methods:
+
+| Method | Description |
+| --- | --- |
+| `update(VehicleEntity, int index)` | Called every tick before the armor stand moves. Update the attachment state here |
+| `getLocation(VehicleEntity, int index, Location modelLocation)` | Returns where the armor stand should be |
+| `animate(VehicleEntity, int index, ArmorStand)` | Called every tick after the armor stand moves. Set its pose here |
+| `onInput(VehicleEntity, int index, Player, VehicleInput)` | Called when the player in the controlling seat presses a key. Return `true` if the attachment used the input |
+| `isSpawnable()` | Return `false` if no armor stand should be spawned |
+
+Each vehicle stores the state of its attachments in an `AttachmentState`, from `vehicle.getAttachmentState(index)`. It has fields for yaw, spin, the last shot and the last input, and `getData()` for your own values.
+
+```java
+public class RadarAttachment extends Attachment {
+    private double speed = 0.1;
+
+    public RadarAttachment(String name, int id, Material material, Vector position) {
+        super(name, id, material, position);
+    }
+
+    @Override
+    public void update(@NotNull VehicleEntity ve, int index) {
+        AttachmentState state = ve.getAttachmentState(index);
+        state.setYaw(state.getYaw() + speed);
+    }
+
+    @Override
+    public void animate(@NotNull VehicleEntity ve, int index, @NotNull ArmorStand entity) {
+        EulerAngle model = ve.getModelEntity().getHeadPose();
+        entity.setHeadPose(model.setY(model.getY() + ve.getAttachmentState(index).getYaw()));
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+}
+```
+
+### 2. Register the type
+
+Register a type to use the attachment in the `attachments` section of the vehicle files. The factory gets the common options already read (name, id, material and position) and the section of the attachment for your own options. Throw an `IllegalArgumentException` if an option is not valid: the message is shown in the console.
+
+```java
+QualityArmoryVehicles.registerAttachmentType("Radar", (name, id, material, position, config) -> {
+    RadarAttachment radar = new RadarAttachment(name, id, material, position);
+    radar.setSpeed(config.getDouble("speed", 0.1));
+    return radar;
+});
+```
+
+The type name is not case-sensitive. You can register it at any time: vehicles that are already loaded and use the type are updated. Registering a type that already exists throws an `IllegalArgumentException`.
+
+### 3. Use it in a vehicle file
+
+```yaml
+attachments:
+  radar:
+    type: Radar
+    material: RABBIT_HIDE
+    id: 50
+    position: {==: Vector, x: -1.0, y: 0.0, z: 0.0}
+    seat: none
+    speed: 0.2
+```
+
+The `seat` option sets which seat sends its keys to `onInput`: `driver`, `none` or a passenger seat index.
+
+### Adding an attachment from code
+
+You can also add an attachment to a vehicle type directly:
+
+```java
+int index = QualityArmoryVehicles.addAttachment(vehicleType, new RadarAttachment("Radar", 50, Material.RABBIT_HIDE, new Vector(-1, 0, 0)));
+```
+
+Spawned vehicles get the attachment on their next tick. Attachments added this way are lost when the vehicles are reloaded, so register a type if the attachment should stay.
+
+## Folia
+
+On Folia, each vehicle is ticked by the region that owns it. The `update`, `animate` and `onInput` methods of your attachments run on that region's thread, so only touch entities and blocks near the vehicle from them.
